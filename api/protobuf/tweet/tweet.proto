@@ -1,0 +1,128 @@
+syntax = "proto3";
+
+package tweet;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cryptotweetsio/tweet/protobuf;tweet";
+
+service TweetService {
+	rpc Create (CreateTweetRequest) returns (CreateTweetResponse) {}
+}
+
+message Text {
+    string en = 1;
+    string vi = 2;
+}
+
+message Entity {
+    repeated int32 indices = 1; 
+    string text = 2;
+    string url = 3;
+    string display_url = 4;
+    string expanded_url = 5;
+}
+
+message Entities {
+    Entity hashtags = 1;
+    Entity symbols = 2;
+    Entity media = 3;
+    Entity urls = 4;
+    Entity user_mentions = 5;
+}
+
+message Photo {
+    int32 width = 1;
+    int32 height = 2;
+    string url = 3;
+    string expanded_url = 4;
+}
+
+message Photos {
+    repeated Photo photos = 1;
+}
+
+message Tweet {
+    string id = 1;
+    string tweet_id = 2;
+    string twitter_profile_id = 3;
+    Text text = 4;
+	int32 favorite_count = 5;
+    int32 conversation_count = 6;
+    
+    string lang = 16;
+    Tweet parent = 17;
+	Photos photos = 18;
+	Entities entities = 19;
+    string in_reply_to_screen_name = 20;
+    string in_reply_to_status_id_str = 21;
+    string in_reply_to_user_id_str = 22;
+   
+    google.protobuf.Timestamp tweeted_at = 7;
+	google.protobuf.Timestamp published_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
+}
+
+message CreateTweetRequest {
+	string id = 1;
+    string tweet_id = 2;
+    string twitter_profile_id = 3;
+    Text text = 4;
+	int32 favorite_count = 5;
+    int32 conversation_count = 6;
+    
+    string lang = 16;
+    Tweet parent = 17;
+	Photos photos = 18;
+	Entities entities = 19;
+    string in_reply_to_screen_name = 20;
+    string in_reply_to_status_id_str = 21;
+    string in_reply_to_user_id_str = 22;
+   
+    google.protobuf.Timestamp tweeted_at = 7;
+}
+
+message CreateTweetResponse {
+	Tweet data = 1;
+}
+
+// <select name="lang" class="OptionsPanel-displayOption">
+//     <option value="">Automatic</option>
+//     <option value="en">English (default)</option>
+//     <option value="ar">Arabic</option>
+//     <option value="bn">Bengali</option>
+//     <option value="zh-cn">Chinese (Simplified)</option>
+//     <option value="zh-tw">Chinese (Traditional)</option>
+//     <option value="cs">Czech</option>
+//     <option value="da">Danish</option>
+//     <option value="nl">Dutch</option>
+//     <option value="fil">Filipino</option>
+//     <option value="fi">Finnish</option>
+//     <option value="fr">French</option>
+//     <option value="de">German</option>
+//     <option value="el">Greek</option>
+//     <option value="he">Hebrew</option>
+//     <option value="hi">Hindi</option>
+//     <option value="hu">Hungarian</option>
+//     <option value="id">Indonesian</option>
+//     <option value="it">Italian</option>
+//     <option value="ja">Japanese</option>
+//     <option value="ko">Korean</option>
+//     <option value="msa">Malay</option>
+//     <option value="no">Norwegian</option>
+//     <option value="fa">Persian</option>
+//     <option value="pl">Polish</option>
+//     <option value="pt">Portuguese</option>
+//     <option value="ro">Romanian</option>
+//     <option value="ru">Russian</option>
+//     <option value="es">Spanish</option>
+//     <option value="sv">Swedish</option>
+//     <option value="th">Thai</option>
+//     <option value="tr">Turkish</option>
+//     <option value="uk">Ukrainian</option>
+//     <option value="ur">Urdu</option>
+//     <option value="vi">Vietnamese</option>
+// </select>

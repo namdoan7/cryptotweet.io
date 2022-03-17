@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package profile;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/cryptotweetsio/profile/protobuf;profile";
+
+service ProfileService {
+	rpc Create (CreateProfileRequest) returns (CreateProfileResponse) {}
+	// rpc Update (UpdateProfileRequest) returns (UpdateProfileResponse) {}
+	// rpc Delete (DeleteProfileRequest) returns (google.protobuf.Empty) {}
+}
+message Profile {
+	string id = 1;
+	string profile_twitter_id = 2;
+	string name = 3;
+	string screen_name = 4;
+	int32 favourites_count = 5;
+	int32 followers_count = 6;
+	bool verified = 7;
+	string description = 8;
+	string profile_image_url = 9;
+	google.protobuf.Struct entities = 17;
+	google.protobuf.Timestamp created_at = 18;
+	google.protobuf.Timestamp updated_at = 19;
+}
+
+message CreateProfileRequest {
+	string id = 1;
+	string profile_twitter_id = 2;
+	string name = 3;
+	string screen_name = 4;
+	int32 favourites_count = 5;
+	int32 followers_count = 6;
+	bool verified = 7;
+	string description = 8;
+	string profile_image_url = 9;
+	google.protobuf.Struct entities = 17;
+}
+
+message CreateProfileResponse {
+	Profile data = 1;
+}
