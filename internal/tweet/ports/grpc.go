@@ -18,6 +18,5 @@ func NewGrpcServer(application app.Application) GrpcServer {
 
 func (g GrpcServer) Create(ctx context.Context, in *tweetpb.CreateTweetRequest) (*tweetpb.CreateTweetResponse, error) {
 	g.app.Commands.CreateTweet.Handle(tweet.Tweet{})
-
 	return &tweetpb.CreateTweetResponse{}, nil
 }
