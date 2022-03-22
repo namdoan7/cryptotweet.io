@@ -91,3 +91,15 @@ func (c *ProfleCommand) GetProfileById(profileId string) (*Profile, error) {
 	}
 	return &profile, err
 }
+
+//  s := "Tue Sep 16 21:58:58 +0000 2014"
+//     const rfc2822 = "Mon Jan 02 15:04:05 -0700 2006"
+//     t, err := time.Parse(rfc2822, s)
+//     if err != nil {
+//         fmt.Println(err)
+//         return
+//     }
+//     u := t.Unix()
+//     fmt.Println(u)
+//     f := t.Format(time.UnixDate)
+//     fmt.Println(f)
