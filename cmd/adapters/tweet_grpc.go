@@ -3,8 +3,8 @@ package adapters
 import (
 	"context"
 
-	tweetpb "github.com/cryptotweet.io/internal/common/genproto/tweet"
-	tweet "github.com/cryptotweet.io/internal/tweet/domain/tweet"
+	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
+	tweet "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 )
 
 type TweetGrpc struct {

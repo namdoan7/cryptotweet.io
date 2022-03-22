@@ -3,7 +3,7 @@ package adapters
 import (
 	"context"
 
-	"github.com/cryptotweet.io/internal/tweet/domain/tweet"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

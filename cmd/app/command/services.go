@@ -3,7 +3,7 @@ package adapters
 import (
 	"context"
 
-	tweet "github.com/cryptotweet.io/internal/tweet/domain/tweet"
+	tweet "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 )
 
 type TweetService interface {

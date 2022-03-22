@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
-	"github.com/cryptotweet.io/internal/tweet/adapters"
-	"github.com/cryptotweet.io/internal/tweet/app"
-	"github.com/cryptotweet.io/internal/tweet/app/command"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/adapters"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/app"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/app/command"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"

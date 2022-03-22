@@ -1,11 +1,11 @@
-module github.com/cryptotweet.io/internal/gateway
+module github.com/levinhne/cryptotweet.io/internal/gateway
 
 go 1.17
 
-replace github.com/cryptotweet.io/internal/common => ../common
+replace github.com/levinhne/cryptotweet.io/internal/common => ../common
 
 require (
-	github.com/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
+	github.com/levinhne/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.8.0
 	google.golang.org/grpc v1.45.0
 	google.golang.org/protobuf v1.27.1

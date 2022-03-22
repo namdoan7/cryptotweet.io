@@ -3,9 +3,9 @@ package ports
 import (
 	"context"
 
-	tweetpb "github.com/cryptotweet.io/internal/common/genproto/tweet"
-	"github.com/cryptotweet.io/internal/tweet/app"
-	"github.com/cryptotweet.io/internal/tweet/domain/tweet"
+	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/app"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 )
 
 type GrpcServer struct {

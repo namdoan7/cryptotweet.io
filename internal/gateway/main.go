@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	tweetpb "github.com/cryptotweet.io/internal/common/genproto/tweet"
+	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 )
 
 func main() {

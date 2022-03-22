@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/cryptotweet.io/cmd/cmd"
+	"github.com/levinhne/cryptotweet.io/cmd/cmd"
 )
 
 func main() {

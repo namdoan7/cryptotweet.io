@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	tweetpb "github.com/cryptotweet.io/internal/common/genproto/tweet"
+	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

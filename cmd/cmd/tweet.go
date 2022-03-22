@@ -11,7 +11,7 @@ import (
 	"github.com/buger/jsonparser"
 	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
-	"github.com/cryptotweet.io/internal/tweet/domain/tweet"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 )
 
 type TweetCommand struct {

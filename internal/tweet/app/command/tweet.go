@@ -1,6 +1,6 @@
 package command
 
-import "github.com/cryptotweet.io/internal/tweet/domain/tweet"
+import "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 
 type CreateTweetHandler struct {
 	TweetRepository tweet.Repository

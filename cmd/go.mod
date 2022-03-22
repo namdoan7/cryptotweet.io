@@ -1,18 +1,18 @@
-module github.com/cryptotweet.io/cmd
+module github.com/levinhne/cryptotweet.io/cmd
 
 go 1.17
 
-replace github.com/cryptotweet.io/internal/common => ../internal/common
+replace github.com/levinhne/cryptotweet.io/internal/common => ../internal/common
 
-replace github.com/cryptotweet.io/internal/tweet => ../internal/tweet
+replace github.com/levinhne/cryptotweet.io/internal/tweet => ../internal/tweet
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.2
 	github.com/buger/jsonparser v1.1.1
 	github.com/chromedp/cdproto v0.0.0-20220217222649-d8c14a5c6edf
 	github.com/chromedp/chromedp v0.7.8
-	github.com/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
-	github.com/cryptotweet.io/internal/tweet v0.0.0-00010101000000-000000000000
+	github.com/levinhne/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
+	github.com/levinhne/cryptotweet.io/internal/tweet v0.0.0-00010101000000-000000000000
 	github.com/urfave/cli/v2 v2.3.0
 )
 

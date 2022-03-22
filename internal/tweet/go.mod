@@ -1,11 +1,11 @@
-module github.com/cryptotweet.io/internal/tweet
+module github.com/levinhne/cryptotweet.io/internal/tweet
 
 go 1.17
 
 require go.mongodb.org/mongo-driver v1.8.4
 
 require (
-	github.com/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
+	github.com/levinhne/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.45.0
 )
 
@@ -35,4 +35,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
 
-replace github.com/cryptotweet.io/internal/common => ../common
+replace github.com/levinhne/cryptotweet.io/internal/common => ../common

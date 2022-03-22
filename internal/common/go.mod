@@ -1,4 +1,4 @@
-module github.com/cryptotweet.io/internal/common
+module github.com/levinhne/cryptotweet.io/internal/common
 
 go 1.17
 

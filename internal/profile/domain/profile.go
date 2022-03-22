@@ -13,7 +13,7 @@ type Entity struct {
 }
 
 type Profile struct {
-	Id               string    `bson:"_id,omitempty"`
+	Id               string                 `bson:"_id,omitempty"`
 	ProfileTwitterId string                 `bson:"profile_twitter_id,omitempty"`
 	Name             string                 `bson:"name,omitempty"`
 	ScreenName       string                 `bson:"screen_name,omitempty"`
@@ -23,7 +23,7 @@ type Profile struct {
 	Description      string                 `bson:"description,omitempty"`
 	ProfileImageUrl  string                 `bson:"profile_image_url,omitempty"`
 	Entities         map[string]interface{} `bson:"entities,omitempty"`
-	PinnedTweetIds []string `bson:"pinned_tweet_ids,omitempty"`
+	PinnedTweetIds   []string               `bson:"pinned_tweet_ids,omitempty"`
 	CreatedAt        time.Time              `bson:"created_at,omitempty"`
 	UpdatedAt        time.Time              `bson:"updated_at,omitempty"`
 }

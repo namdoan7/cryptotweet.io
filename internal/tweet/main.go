@@ -1,10 +1,10 @@
 package main
 
 import (
-	tweetpb "github.com/cryptotweet.io/internal/common/genproto/tweet"
-	"github.com/cryptotweet.io/internal/common/server"
-	"github.com/cryptotweet.io/internal/tweet/ports"
-	"github.com/cryptotweet.io/internal/tweet/service"
+	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
+	"github.com/levinhne/cryptotweet.io/internal/common/server"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/ports"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/service"
 	"google.golang.org/grpc"
 )
 
