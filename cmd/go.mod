@@ -11,6 +11,7 @@ require (
 	github.com/buger/jsonparser v1.1.1
 	github.com/chromedp/cdproto v0.0.0-20220217222649-d8c14a5c6edf
 	github.com/chromedp/chromedp v0.7.8
+	github.com/k0kubun/pp/v3 v3.1.0
 	github.com/levinhne/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
 	github.com/levinhne/cryptotweet.io/internal/tweet v0.0.0-00010101000000-000000000000
 	github.com/urfave/cli/v2 v2.3.0

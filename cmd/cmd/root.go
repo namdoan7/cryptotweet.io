@@ -9,6 +9,7 @@ import (
 
 func Execute() error {
 	tweetCommand := NewTweetCommand()
+	profileCommand := NewProfileCommand()
 	rootCommand := &cli.App{
 		Name: "cryptotweet",
 		Commands: []*cli.Command{
@@ -67,6 +68,24 @@ func Execute() error {
 						Name:  "remove",
 						Usage: "",
 						Action: func(c *cli.Context) error {
+							return nil
+						},
+						After: func(c *cli.Context) error {
+							// log.Println("After", c.Context.Value("profile_id"))
+							return nil
+						},
+					},
+				},
+			},
+			{
+				Name:  "profile",
+				Usage: "",
+				Subcommands: []*cli.Command{
+					{
+						Name:  "add",
+						Usage: "",
+						Action: func(c *cli.Context) error {
+							profileCommand.GetProfileById(c.Args().First())
 							return nil
 						},
 						After: func(c *cli.Context) error {
