@@ -12,20 +12,35 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
+type Url struct {
+	DispayUrl   string  `bson:"display_url,omitempty" json:"display_url,omitempty"`
+	ExpandedUrl string  `bson:"expanded_url,omitempty" json:"expanded_url,omitempty"`
+	Indices     []uint8 `bson:"indices,omitempty" json:"indices,omitempty"`
+	Url         string  `bson:"url,omitempty" json:"url,omitempty"`
+}
+
+type Description struct {
+	Urls []Url `bson:"urls,omitempty" json:"urls,omitempty"`
+}
+
+type Entities struct {
+	Description Description `bson:"description,omitempty" json:"description,omitempty"`
+}
+
 type Profile struct {
-	Id               string                 `bson:"_id,omitempty"`
-	ProfileTwitterId string                 `bson:"profile_twitter_id,omitempty"`
-	Name             string                 `bson:"name,omitempty"`
-	ScreenName       string                 `bson:"screen_name,omitempty" json:"screen_name,omitempty"`
-	FavouritesCount  int32                  `bson:"favourites_count,omitempty"`
-	FollowersCount   int32                  `bson:"followers_count,omitempty"`
-	Verified         bool                   `bson:"verified,omitempty"`
-	Description      string                 `bson:"description,omitempty"`
-	ProfileImageUrl  string                 `bson:"profile_image_url,omitempty"`
-	Entities         map[string]interface{} `bson:"entities,omitempty"`
-	PinnedTweetIds   []string               `bson:"pinned_tweet_ids,omitempty"`
-	CreatedAt        time.Time              `bson:"created_at,omitempty"`
-	UpdatedAt        time.Time              `bson:"updated_at,omitempty"`
+	Id               string    `bson:"_id,omitempty" json:"_id,omitempty"`
+	ProfileTwitterId string    `bson:"profile_twitter_id,omitempty" json:"profile_twitter_id,omitempty"`
+	Name             string    `bson:"name,omitempty" json:"name,omitempty"`
+	ScreenName       string    `bson:"screen_name,omitempty" json:"screen_name,omitempty"`
+	FavouritesCount  int32     `bson:"favourites_count,omitempty" json:"favourites_count,omitempty"`
+	FollowersCount   int32     `bson:"followers_count,omitempty" json:"followers_count,omitempty"`
+	Verified         bool      `bson:"verified,omitempty" json:"verified,omitempty"`
+	Description      string    `bson:"description,omitempty" json:"description,omitempty"`
+	ProfileImageUrl  string    `bson:"profile_image_url_https,omitempty" json:"profile_image_url_https,omitempty"`
+	Entities         Entities  `bson:"entities,omitempty" json:"entities,omitempty"`
+	PinnedTweetIds   []string  `bson:"pinned_tweet_ids,omitempty" json:"pinned_tweet_ids,omitempty"`
+	CreatedAt        time.Time `bson:"created_at,omitempty" json:"-"`
+	UpdatedAt        time.Time `bson:"updated_at,omitempty" json:"-"`
 }
 
 type ProfleCommand struct {
@@ -89,17 +104,14 @@ func (c *ProfleCommand) GetProfileById(profileId string) (*Profile, error) {
 	if err != nil {
 		return nil, err
 	}
+	createdAt, err := jsonparser.GetString(data, "created_at")
+	if err != nil {
+		return nil, err
+	}
+	const RFC2822 = "Mon Jan 02 15:04:05 -0700 2006"
+	profile.CreatedAt, err = time.Parse(RFC2822, createdAt)
+	if err != nil {
+		return nil, err
+	}
 	return &profile, err
 }
-
-//  s := "Tue Sep 16 21:58:58 +0000 2014"
-//     const rfc2822 = "Mon Jan 02 15:04:05 -0700 2006"
-//     t, err := time.Parse(rfc2822, s)
-//     if err != nil {
-//         fmt.Println(err)
-//         return
-//     }
-//     u := t.Unix()
-//     fmt.Println(u)
-//     f := t.Format(time.UnixDate)
-//     fmt.Println(f)

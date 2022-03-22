@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"log"
 	"os"
 
 	"github.com/AlecAivazis/survey/v2"
@@ -85,7 +86,8 @@ func Execute() error {
 						Name:  "add",
 						Usage: "",
 						Action: func(c *cli.Context) error {
-							profileCommand.GetProfileById(c.Args().First())
+							_, e := profileCommand.GetProfileById(c.Args().First())
+							log.Println(e)
 							return nil
 						},
 						After: func(c *cli.Context) error {
