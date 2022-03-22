@@ -12,11 +12,6 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
-func test() {
-	a, c, _ := NewTweetClient()
-	c()
-}
-
 func NewTweetClient() (client tweetpb.TweetServiceClient, close func() error, err error) {
 	grpcAddr := os.Getenv("USERS_GRPC_ADDR")
 	if grpcAddr == "" {
