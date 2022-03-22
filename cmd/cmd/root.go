@@ -1,14 +1,16 @@
 package cmd
 
 import (
+	"context"
 	"log"
 	"os"
 
-	"github.com/AlecAivazis/survey/v2"
+	"github.com/levinhne/cryptotweet.io/cmd/app"
+	"github.com/levinhne/cryptotweet.io/cmd/app/command"
 	"github.com/urfave/cli/v2"
 )
 
-func Execute() error {
+func Execute(app app.Application) error {
 	tweetCommand := NewTweetCommand()
 	profileCommand := NewProfileCommand()
 	rootCommand := &cli.App{
@@ -22,16 +24,19 @@ func Execute() error {
 						Name:  "add",
 						Usage: "",
 						Before: func(c *cli.Context) error {
-							days := []string{}
-							prompt := &survey.MultiSelect{
-								Message: "What days do you prefer:",
-								Options: []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"},
-							}
-							survey.AskOne(prompt, &days)
+							// days := []string{}
+							// prompt := &survey.MultiSelect{
+							// 	Message: "What days do you prefer:",
+							// 	Options: []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"},
+							// }
+							// survey.AskOne(prompt, &days)
 							return nil
 						},
 						Action: func(c *cli.Context) error {
-							_, err := tweetCommand.GetTweetById(c.Args().First())
+							t, err := tweetCommand.GetTweetById(c.Args().First())
+							app.Commands.CreateTweet.Handle(context.Background(), command.CreateTweet{
+								Tweet: t,
+							})
 							if err != nil {
 								return err
 							}

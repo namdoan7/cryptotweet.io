@@ -1,11 +1,11 @@
-package adapters
+package command
 
 import (
 	"context"
 
-	tweet "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
+	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 )
 
 type TweetService interface {
-	Create(ctx context.Context, tweet tweet.Tweet) error
+	CreateTweet(ctx context.Context, tweet *tweet.Tweet) error
 }

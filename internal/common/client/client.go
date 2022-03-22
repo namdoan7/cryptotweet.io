@@ -13,12 +13,13 @@ import (
 )
 
 func NewTweetClient() (client tweetpb.TweetServiceClient, close func() error, err error) {
-	grpcAddr := os.Getenv("USERS_GRPC_ADDR")
+	grpcAddr := os.Getenv("TWEET_GRPC_ADDR")
 	if grpcAddr == "" {
 		return nil, func() error { return nil }, errors.New("empty env USERS_GRPC_ADDR")
 	}
 
 	opts, err := grpcDialOpts(grpcAddr)
+
 	if err != nil {
 		return nil, func() error { return nil }, err
 	}

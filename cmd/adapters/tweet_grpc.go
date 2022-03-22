@@ -15,7 +15,7 @@ func NewTweetGrpc(client tweetpb.TweetServiceClient) TweetGrpc {
 	return TweetGrpc{client: client}
 }
 
-func (s TweetGrpc) CreateTweet(ctx context.Context, tweet tweet.Tweet) error {
-	_, err := s.client.Create(ctx, &tweetpb.CreateTweetRequest{})
+func (s TweetGrpc) CreateTweet(ctx context.Context, tweet *tweet.Tweet) error {
+	_, err := s.client.Create(ctx, &tweetpb.CreateTweetRequest{TweetId: "11"})
 	return err
 }
