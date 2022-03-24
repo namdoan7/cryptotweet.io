@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package tag;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/levinhne/cryptotweet.io/tag/protobuf;tag";
+
+service TagService {
+	rpc Create (CreateTagtRequest) returns (CreateTagResponse) {}
+}
+
+message CreateTagtRequest {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    
+}

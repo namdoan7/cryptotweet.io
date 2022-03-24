@@ -7,7 +7,7 @@ import "google/protobuf/struct.proto";
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/cryptotweetsio/tweet/protobuf;tweet";
+option go_package = "github.com/levinhne/cryptotweet.io/tweet/protobuf;tweet";
 
 service TweetService {
 	rpc Create (CreateTweetRequest) returns (CreateTweetResponse) {}
