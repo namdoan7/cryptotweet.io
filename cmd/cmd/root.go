@@ -33,9 +33,9 @@ func Execute(app app.Application) error {
 							return nil
 						},
 						Action: func(c *cli.Context) error {
-							t, err := tweetCommand.GetTweetById(c.Args().First())
+							tweet, err := tweetCommand.GetTweetById(c.Args().First())
 							app.Commands.CreateTweet.Handle(context.Background(), command.CreateTweet{
-								Tweet: t,
+								Tweet: tweet,
 							})
 							if err != nil {
 								return err

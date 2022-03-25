@@ -6,8 +6,8 @@ type CreateTweetHandler struct {
 	TweetRepository tweet.Repository
 }
 
-func NewCreateTweetHandler(tweetRepo tweet.Repository) *CreateTweetHandler {
-	return &CreateTweetHandler{TweetRepository: tweetRepo}
+func NewCreateTweetHandler(tweetRepository tweet.Repository) *CreateTweetHandler {
+	return &CreateTweetHandler{TweetRepository: tweetRepository}
 }
 
 func (h CreateTweetHandler) Handle(tweet tweet.Tweet) error {

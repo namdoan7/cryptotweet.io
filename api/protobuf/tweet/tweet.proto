@@ -2,9 +2,8 @@ syntax = "proto3";
 
 package tweet;
 
-import "google/api/annotations.proto";
-import "google/protobuf/struct.proto";
-import "google/protobuf/empty.proto";
+// import "google/protobuf/struct.proto";
+// import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/levinhne/cryptotweet.io/tweet/protobuf;tweet";
@@ -13,9 +12,9 @@ service TweetService {
 	rpc Create (CreateTweetRequest) returns (CreateTweetResponse) {}
 }
 
-message Text {
-    string en = 1;
-    string vi = 2;
+message TranslateText {
+    string vietnamese = 1;
+    string russian = 2;
 }
 
 message Entity {
@@ -27,11 +26,11 @@ message Entity {
 }
 
 message Entities {
-    Entity hashtags = 1;
-    Entity symbols = 2;
-    Entity media = 3;
-    Entity urls = 4;
-    Entity user_mentions = 5;
+    repeated Entity hashtags = 1;
+    repeated Entity symbols = 2;
+    repeated Entity media = 3;
+    repeated Entity urls = 4;
+    repeated Entity user_mentions = 5;
 }
 
 message Photo {
@@ -41,21 +40,18 @@ message Photo {
     string expanded_url = 4;
 }
 
-message Photos {
-    repeated Photo photos = 1;
-}
-
 message Tweet {
     string id = 1;
     string tweet_id = 2;
     string twitter_profile_id = 3;
-    Text text = 4;
+    string text = 4;
+    TranslateText translate_text = 10;
 	int32 favorite_count = 5;
     int32 conversation_count = 6;
     
     string lang = 16;
     Tweet parent = 17;
-	Photos photos = 18;
+	repeated Photo photos = 18;
 	Entities entities = 19;
     string in_reply_to_screen_name = 20;
     string in_reply_to_status_id_str = 21;
@@ -70,19 +66,22 @@ message CreateTweetRequest {
 	string id = 1;
     string tweet_id = 2;
     string twitter_profile_id = 3;
-    Text text = 4;
+    string text = 4;
+    TranslateText translate_text = 10;
 	int32 favorite_count = 5;
     int32 conversation_count = 6;
     
     string lang = 16;
     Tweet parent = 17;
-	Photos photos = 18;
+	repeated Photo photos = 18;
 	Entities entities = 19;
     string in_reply_to_screen_name = 20;
     string in_reply_to_status_id_str = 21;
     string in_reply_to_user_id_str = 22;
    
     google.protobuf.Timestamp tweeted_at = 7;
+	google.protobuf.Timestamp published_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
 }
 
 message CreateTweetResponse {

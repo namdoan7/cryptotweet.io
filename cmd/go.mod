@@ -13,6 +13,7 @@ require (
 	github.com/levinhne/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
 	github.com/levinhne/cryptotweet.io/internal/tweet v0.0.0-00010101000000-000000000000
 	github.com/urfave/cli/v2 v2.3.0
+	google.golang.org/protobuf v1.27.1
 )
 
 require (
@@ -22,7 +23,7 @@ require (
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.1.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0 // indirect
+	github.com/google/go-cmp v0.5.7 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -33,5 +34,4 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20220317150908-0efb43f6373e // indirect
 	google.golang.org/grpc v1.45.0 // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
 )
