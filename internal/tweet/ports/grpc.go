@@ -2,6 +2,7 @@ package ports
 
 import (
 	"context"
+	"log"
 
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/app"
@@ -10,6 +11,7 @@ import (
 
 type GrpcServer struct {
 	app app.Application
+	tweetpb.UnimplementedTweetServiceServer
 }
 
 func NewGrpcServer(application app.Application) GrpcServer {
@@ -17,6 +19,7 @@ func NewGrpcServer(application app.Application) GrpcServer {
 }
 
 func (g GrpcServer) Create(ctx context.Context, in *tweetpb.CreateTweetRequest) (*tweetpb.CreateTweetResponse, error) {
+	log.Println(in)
 	g.app.Commands.CreateTweet.Handle(tweet.Tweet{})
 	return &tweetpb.CreateTweetResponse{}, nil
 }

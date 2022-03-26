@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/url"
 	"strings"
@@ -11,7 +12,6 @@ import (
 	"github.com/buger/jsonparser"
 	"github.com/chromedp/cdproto/network"
 	"github.com/chromedp/chromedp"
-	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 )
 
 type TweetCommand struct {
@@ -36,7 +36,9 @@ func NewTweetCommand() *TweetCommand {
 	}
 }
 
-func (c *TweetCommand) GetTweetById(tweetId string) (*tweet.Tweet, error) {
+func (c *TweetCommand) GetTweetById(tweetId string) (map[string]interface{}, error) {
+	var tweet = make(map[string]interface{}, 0)
+
 	ctx, cancel := context.WithTimeout(c.ctx, 30*time.Second)
 	defer cancel()
 	done := make(chan bool)
@@ -57,46 +59,47 @@ func (c *TweetCommand) GetTweetById(tweetId string) (*tweet.Tweet, error) {
 		chromedp.Navigate(`https://strongpasswordsgenerator.net/twitter.html?type=tweet&status=`+tweetId),
 	)
 	if err != nil {
-		return nil, err
+		return tweet, err
 	}
 	select {
 	case <-ctx.Done():
 	case <-done:
 	}
-	var data string
+	var data []byte
 	err = chromedp.Run(ctx, chromedp.ActionFunc(func(ctx context.Context) error {
 		body, err := network.GetResponseBody(requestId).Do(ctx)
-		data = string(body)
-		data = strings.ReplaceAll(data, "expandedUrl", "expanded_url")
+		data = body
+		// data = strings.ReplaceAll(data, "expandedUrl", "expanded_url")
 		return err
 	}))
-	var tweet tweet.Tweet
-	dataToBytes := []byte(data)
-	err = json.Unmarshal(dataToBytes, &tweet)
+
+	err = json.Unmarshal(data, &tweet)
+
 	if err != nil {
-		return nil, err
+		return tweet, err
 	}
-	createdAt, err := jsonparser.GetString(dataToBytes, "created_at")
+	createdAt, err := jsonparser.GetString(data, "created_at")
 	if err != nil {
 		return nil, err
 	}
 	tweetedAt, err := time.Parse(time.RFC3339, createdAt)
 	if err != nil {
-		return nil, err
+		return tweet, err
 	}
-	tweet.TweetedAt = tweetedAt
-	tweetProfileId, err := jsonparser.GetString(dataToBytes, "user", "id_str")
+	tweet["tweeted_at"] = tweetedAt
+	tweetProfileId, err := jsonparser.GetString(data, "user", "id_str")
 	if err != nil {
-		return nil, err
+		return tweet, err
 	}
-	tweet.TwitterProfileId = tweetProfileId
-	tweet.TweetId = tweetId
+	tweet["twitter_profile_id"] = tweetProfileId
+	tweet["tweet_id"] = tweetId
+	translateText := make(map[string]string)
 	langs := []string{"vi", "ru"}
 	for _, lang := range langs {
 		var result string
 		ctx, _ = chromedp.NewContext(ctx)
 		err = chromedp.Run(ctx,
-			chromedp.Navigate(`https://strongpasswordsgenerator.net/translate.html?text=`+url.QueryEscape(tweet.Text)+`#googtrans/en/`+lang),
+			chromedp.Navigate(`https://strongpasswordsgenerator.net/translate.html?text=`+url.QueryEscape(fmt.Sprintf("%s", tweet["text"]))+`#googtrans/en/`+lang),
 			chromedp.WaitVisible(`#text > font`),
 			chromedp.Text(`#text > font`, &result),
 			chromedp.ActionFunc(func(ctx context.Context) error {
@@ -106,12 +109,8 @@ func (c *TweetCommand) GetTweetById(tweetId string) (*tweet.Tweet, error) {
 		if err != nil {
 			return nil, err
 		}
-		switch lang {
-		case "vi":
-			tweet.TranslateText.Vietnamese = result
-		case "ru":
-			tweet.TranslateText.Russian = result
-		}
+		translateText[lang] = result
 	}
-	return &tweet, err
+	tweet["translate_text"] = translateText
+	return tweet, err
 }

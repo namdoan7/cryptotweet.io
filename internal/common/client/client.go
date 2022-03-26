@@ -33,6 +33,7 @@ func NewTweetClient() (client tweetpb.TweetServiceClient, close func() error, er
 }
 
 func grpcDialOpts(grpcAddr string) ([]grpc.DialOption, error) {
+	return []grpc.DialOption{grpc.WithInsecure()}, nil
 	if noTLS, _ := strconv.ParseBool(os.Getenv("GRPC_NO_TLS")); noTLS {
 		return []grpc.DialOption{grpc.WithInsecure()}, nil
 	}
