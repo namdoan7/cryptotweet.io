@@ -2,7 +2,6 @@ package adapters
 
 import (
 	"context"
-	"log"
 
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	tweet "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
@@ -58,6 +57,5 @@ func (s TweetGrpc) CreateTweet(ctx context.Context, tweet *tweet.Tweet) error {
 		Photos:               photos,
 		Entities:             &entities,
 	})
-	log.Println(err)
 	return err
 }

@@ -1,11 +1,12 @@
 package cmd
 
 import (
+	"context"
 	"log"
 	"os"
 
-	"github.com/k0kubun/pp/v3"
 	"github.com/levinhne/cryptotweet.io/cmd/app"
+	"github.com/levinhne/cryptotweet.io/cmd/app/command"
 	"github.com/urfave/cli/v2"
 )
 
@@ -32,16 +33,11 @@ func Execute(app app.Application) error {
 							return nil
 						},
 						Action: func(c *cli.Context) error {
-							tweet, _ := tweetCommand.GetTweetById(c.Args().First())
-							pp.Println(tweet)
-							// app.Commands.CreateTweet.Handle(context.Background(), command.CreateTweet{
-							// 	Tweet: tweet,
-							// })
-							// if err != nil {
-							// 	return err
-							// }
-							// c.Context = context.WithValue(c.Context, "profile_id", t.TwitterProfileId)
-							return nil
+							tweet, err := tweetCommand.GetTweetById(c.Args().First())
+							app.Commands.CreateTweet.Handle(context.Background(), command.CreateTweet{
+								Tweet: tweet,
+							})
+							return err
 						},
 						After: func(c *cli.Context) error {
 							// log.Println("After", c.Context.Value("profile_id"))
