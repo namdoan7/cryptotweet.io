@@ -3,7 +3,6 @@ package ports
 import (
 	"context"
 
-	"github.com/k0kubun/pp/v3"
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/app"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
@@ -19,6 +18,67 @@ func NewGrpcServer(application app.Application) GrpcServer {
 }
 
 func (g GrpcServer) Create(ctx context.Context, in *tweetpb.CreateTweetRequest) (*tweetpb.CreateTweetResponse, error) {
+	var photos []tweet.Photo
+	for _, photo := range in.Photos {
+		photos = append(photos, tweet.Photo{
+			Width:       photo.Width,
+			Height:      photo.Height,
+			Url:         photo.Url,
+			ExpandedUrl: photo.ExpandedUrl,
+		})
+	}
+
+	var entities tweet.Entities
+	// hashtag
+	for _, hashtag := range in.Entities.Hashtags {
+		entities.Hashtags = append(entities.Hashtags, tweet.Entity{
+			Text:        hashtag.Text,
+			Url:         hashtag.Url,
+			Indices:     hashtag.Indices,
+			DisplayUrl:  hashtag.DisplayUrl,
+			ExpandedUrl: hashtag.DisplayUrl,
+		})
+	}
+	// media
+	for _, media := range in.Entities.Media {
+		entities.Media = append(entities.Media, tweet.Entity{
+			Text:        media.Text,
+			Url:         media.Url,
+			Indices:     media.Indices,
+			DisplayUrl:  media.DisplayUrl,
+			ExpandedUrl: media.DisplayUrl,
+		})
+	}
+	// symbol
+	for _, symbol := range in.Entities.Symbols {
+		entities.Symbols = append(entities.Symbols, tweet.Entity{
+			Text:        symbol.Text,
+			Url:         symbol.Url,
+			Indices:     symbol.Indices,
+			DisplayUrl:  symbol.DisplayUrl,
+			ExpandedUrl: symbol.DisplayUrl,
+		})
+	}
+	// urls
+	for _, symbol := range in.Entities.Urls {
+		entities.Urls = append(entities.Urls, tweet.Entity{
+			Text:        symbol.Text,
+			Url:         symbol.Url,
+			Indices:     symbol.Indices,
+			DisplayUrl:  symbol.DisplayUrl,
+			ExpandedUrl: symbol.DisplayUrl,
+		})
+	}
+	// user mentions
+	for _, mention := range in.Entities.UserMentions {
+		entities.UserMentions = append(entities.UserMentions, tweet.Entity{
+			Text:        mention.Text,
+			Url:         mention.Url,
+			Indices:     mention.Indices,
+			DisplayUrl:  mention.DisplayUrl,
+			ExpandedUrl: mention.DisplayUrl,
+		})
+	}
 	tweet := tweet.Tweet{
 		TweetId:          in.TweetId,
 		Text:             in.Text,
@@ -27,18 +87,16 @@ func (g GrpcServer) Create(ctx context.Context, in *tweetpb.CreateTweetRequest) 
 			Vietnamese: in.TranslateText.Vietnamese,
 			Russian:    in.TranslateText.Russian,
 		},
-		FavoriteCount:       in.FavoriteCount,
-		ConversationCount:   in.ConversationCount,
-		Lang:                in.Lang,
-		InReplyToScreenName: in.InReplyToScreenName,
+		FavoriteCount:        in.FavoriteCount,
+		ConversationCount:    in.ConversationCount,
+		Lang:                 in.Lang,
+		InReplyToScreenName:  in.InReplyToScreenName,
+		Photos:               photos,
+		Entities:             entities,
+		InReplyToStatusIdStr: in.InReplyToStatusIdStr,
+		TweetedAt:            in.TweetedAt.AsTime(),
+		InReplyToUserIdStr:   in.InReplyToUserIdStr,
 	}
-	pp.Println(tweet)
 	g.app.Commands.CreateTweet.Handle(tweet)
 	return &tweetpb.CreateTweetResponse{}, nil
-}
-
-func tran[V *tweetpb.CreateTweetRequest | *tweetpb.CreateTweetResponse](V) tweet.Tweet {
-	tweet :=  tweet.Tweet{
-		
-	}
 }

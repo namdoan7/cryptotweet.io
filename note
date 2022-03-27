@@ -1,0 +1,1 @@
+mongo admin -u admin -p 'admin' --authenticationDatabase admin
