@@ -1,10 +1,11 @@
 module github.com/levinhne/cryptotweet.io/internal/tweet
 
-go 1.17
+go 1.18
 
 require go.mongodb.org/mongo-driver v1.8.4
 
 require (
+	github.com/k0kubun/pp/v3 v3.1.0
 	github.com/levinhne/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.45.0
 )
@@ -15,6 +16,8 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
+	github.com/mattn/go-colorable v0.1.12 // indirect
+	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect

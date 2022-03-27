@@ -36,3 +36,9 @@ func (g GrpcServer) Create(ctx context.Context, in *tweetpb.CreateTweetRequest) 
 	g.app.Commands.CreateTweet.Handle(tweet)
 	return &tweetpb.CreateTweetResponse{}, nil
 }
+
+func tran[V *tweetpb.CreateTweetRequest | *tweetpb.CreateTweetResponse](V) tweet.Tweet {
+	tweet :=  tweet.Tweet{
+		
+	}
+}

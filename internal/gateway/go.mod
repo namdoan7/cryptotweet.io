@@ -1,6 +1,6 @@
 module github.com/levinhne/cryptotweet.io/internal/gateway
 
-go 1.17
+go 1.18
 
 replace github.com/levinhne/cryptotweet.io/internal/common => ../common
 

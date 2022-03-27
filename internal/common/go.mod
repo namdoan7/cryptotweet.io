@@ -1,6 +1,6 @@
 module github.com/levinhne/cryptotweet.io/internal/common
 
-go 1.17
+go 1.18
 
 require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
