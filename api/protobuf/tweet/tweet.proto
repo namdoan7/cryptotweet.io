@@ -10,6 +10,7 @@ option go_package = "github.com/levinhne/cryptotweet.io/tweet/protobuf;tweet";
 
 service TweetService {
 	rpc Create (CreateTweetRequest) returns (CreateTweetResponse) {}
+    rpc Update (UpdateTweetRequest) returns (UpdateTweetResponse) {}
 }
 
 message TranslateText {
@@ -18,7 +19,7 @@ message TranslateText {
 }
 
 message Entity {
-    repeated int32 indices = 1; 
+    repeated uint32 indices = 1; 
     string text = 2;
     string url = 3;
     string display_url = 4;
@@ -70,6 +71,7 @@ message CreateTweetRequest {
     TranslateText translate_text = 10;
 	int32 favorite_count = 5;
     int32 conversation_count = 6;
+    repeated uint32 hashtags = 15;
     
     string lang = 16;
     Tweet parent = 17;
@@ -88,6 +90,32 @@ message CreateTweetResponse {
 	Tweet data = 1;
 }
 
+message UpdateTweetRequest {
+    string id = 1;
+    string tweet_id = 2;
+    string twitter_profile_id = 3;
+    string text = 4;
+    TranslateText translate_text = 10;
+	int32 favorite_count = 5;
+    int32 conversation_count = 6;
+    repeated uint32 hashtags = 15;
+    
+    string lang = 16;
+    Tweet parent = 17;
+	repeated Photo photos = 18;
+	Entities entities = 19;
+    string in_reply_to_screen_name = 20;
+    string in_reply_to_status_id_str = 21;
+    string in_reply_to_user_id_str = 22;
+   
+    google.protobuf.Timestamp tweeted_at = 7;
+	google.protobuf.Timestamp published_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
+}
+
+message UpdateTweetResponse {
+    string id = 1;
+}
 // <select name="lang" class="OptionsPanel-displayOption">
 //     <option value="">Automatic</option>
 //     <option value="en">English (default)</option>

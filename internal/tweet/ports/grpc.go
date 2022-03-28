@@ -35,3 +35,9 @@ func (g GrpcServer) Create(ctx context.Context, in *tweetpb.CreateTweetRequest) 
 	g.app.Commands.CreateTweet.Handle(tweet)
 	return &tweetpb.CreateTweetResponse{}, nil
 }
+
+func (g GrpcServer) Update(ctx context.Context, in *tweetpb.UpdateTweetRequest) (*tweetpb.UpdateTweetRequest, error) {
+	tweet := trans[tweet.Tweet](in)
+	g.app.Commands.CreateTweet.Handle(tweet)
+	return &tweetpb.UpdateTweetRequest{}, nil
+}
