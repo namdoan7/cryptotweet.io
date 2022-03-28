@@ -2,10 +2,11 @@ package adapters
 
 import (
 	"context"
+	"encoding/json"
 
+	"github.com/golang/protobuf/jsonpb"
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	tweet "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type TweetGrpc struct {
@@ -17,45 +18,32 @@ func NewTweetGrpc(client tweetpb.TweetServiceClient) TweetGrpc {
 }
 
 func (s TweetGrpc) CreateTweet(ctx context.Context, tweet *tweet.Tweet) error {
-	var photos []*tweetpb.Photo
-	for _, photo := range tweet.Photos {
-		photos = append(photos, &tweetpb.Photo{
-			Width:       photo.Width,
-			Height:      photo.Height,
-			Url:         photo.Url,
-			ExpandedUrl: photo.ExpandedUrl,
-		})
-	}
+	ee, _ := json.Marshal(tweet)
+	var createTweetRequest tweetpb.CreateTweetRequest
+	jsonpb.Unmarshal(ee, &createTweetRequest)
 
-	var entities tweetpb.Entities
-	// hashtag
-	for _, hashtag := range tweet.Entities.Hashtags {
-		entities.Hashtags = append(entities.Hashtags, &tweetpb.Entity{
-			Text:        hashtag.Text,
-			Url:         hashtag.Url,
-			Indices:     hashtag.Indices,
-			DisplayUrl:  hashtag.DisplayUrl,
-			ExpandedUrl: hashtag.DisplayUrl,
-		})
-	}
+	// var photos []*tweetpb.Photo
+	// for _, photo := range tweet.Photos {
+	// 	photos = append(photos, &tweetpb.Photo{
+	// 		Width:       photo.Width,
+	// 		Height:      photo.Height,
+	// 		Url:         photo.Url,
+	// 		ExpandedUrl: photo.ExpandedUrl,
+	// 	})
+	// }
 
-	_, err := s.client.Create(ctx, &tweetpb.CreateTweetRequest{
-		TweetId:          tweet.TweetId,
-		TwitterProfileId: tweet.TwitterProfileId,
-		Text:             tweet.Text,
-		TranslateText: &tweetpb.TranslateText{
-			Vietnamese: tweet.TranslateText.Vietnamese,
-			Russian:    tweet.TranslateText.Russian,
-		},
-		FavoriteCount:        tweet.FavoriteCount,
-		ConversationCount:    tweet.ConversationCount,
-		Lang:                 tweet.Lang,
-		TweetedAt:            &timestamppb.Timestamp{Seconds: tweet.TweetedAt.Unix()},
-		InReplyToScreenName:  tweet.InReplyToScreenName,
-		InReplyToStatusIdStr: tweet.InReplyToStatusIdStr,
-		InReplyToUserIdStr:   tweet.InReplyToUserIdStr,
-		Photos:               photos,
-		Entities:             &entities,
-	})
+	// var entities tweetpb.Entities
+	// // hashtag
+	// for _, hashtag := range tweet.Entities.Hashtags {
+	// 	entities.Hashtags = append(entities.Hashtags, &tweetpb.Entity{
+	// 		Text:        hashtag.Text,
+	// 		Url:         hashtag.Url,
+	// 		Indices:     hashtag.Indices,
+	// 		DisplayUrl:  hashtag.DisplayUrl,
+	// 		ExpandedUrl: hashtag.DisplayUrl,
+	// 	})
+	// }
+
+	_, err := s.client.Create(ctx, &createTweetRequest)
 	return err
 }
