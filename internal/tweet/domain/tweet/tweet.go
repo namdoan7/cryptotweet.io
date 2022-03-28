@@ -35,7 +35,7 @@ type Tweet struct {
 	TweetId           string        `bson:"tweet_id,omitempty" json:"tweet_id,omitempty"`
 	TwitterProfileId  string        `bson:"twitter_profile_id,omitempty" json:"twitter_profile_id,omitempty"`
 	Text              string        `bson:"text,omitempty" json:"text,omitempty"`
-	TranslateText     TranslateText `bson:"translate_text,omitempty"`
+	TranslateText     TranslateText `bson:"translate_text,omitempty" json:"translate_text,omitempty"`
 	FavoriteCount     int32         `bson:"favorite_count,omitempty" json:"favorite_count,omitempty"`
 	ConversationCount int32         `bson:"conversation_count,omitempty" json:"conversation_count,omitempty"`
 	Lang              string        `bson:"lang,omitempty" json:"lang,omitempty"`
