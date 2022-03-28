@@ -5,13 +5,13 @@ go 1.18
 require go.mongodb.org/mongo-driver v1.8.4
 
 require (
+	github.com/chidiwilliams/flatbson v0.3.0
 	github.com/levinhne/cryptotweet.io/internal/common v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.45.0
 	google.golang.org/protobuf v1.27.1
 )
 
 require (
-	github.com/chidiwilliams/flatbson v0.3.0 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect

@@ -8,10 +8,9 @@ import (
 	"github.com/levinhne/cryptotweet.io/internal/tweet/app"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 	"google.golang.org/protobuf/encoding/protojson"
-	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
-func trans[R any](s protoreflect.ProtoMessage) R {
+func trans[R any](s *tweetpb.CreateTweetRequest) R {
 	m := protojson.MarshalOptions{
 		UseProtoNames: true,
 	}
@@ -36,8 +35,8 @@ func (g GrpcServer) Create(ctx context.Context, in *tweetpb.CreateTweetRequest) 
 	return &tweetpb.CreateTweetResponse{}, nil
 }
 
-func (g GrpcServer) Update(ctx context.Context, in *tweetpb.UpdateTweetRequest) (*tweetpb.UpdateTweetRequest, error) {
-	tweet := trans[tweet.Tweet](in)
-	g.app.Commands.CreateTweet.Handle(tweet)
-	return &tweetpb.UpdateTweetRequest{}, nil
-}
+// func (g GrpcServer) Update(ctx context.Context, in *tweetpb.UpdateTweetRequest) (*tweetpb.UpdateTweetRequest, error) {
+// 	tweet := trans[tweet.Tweet](in)
+// 	g.app.Commands.CreateTweet.Handle(tweet)
+// 	return &tweetpb.UpdateTweetRequest{}, nil
+// }

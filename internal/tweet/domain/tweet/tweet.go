@@ -26,8 +26,8 @@ type Photo struct {
 }
 
 type TranslateText struct {
-	Vietnamese string `bson:"vi,omitempty"`
-	Russian    string `bson:"ru,omitempty"`
+	Vietnamese string `bson:"vi,omitempty" json:"vi,omitempty"`
+	Russian    string `bson:"ru,omitempty" json:"ru,omitempty"`
 }
 
 type Tweet struct {
