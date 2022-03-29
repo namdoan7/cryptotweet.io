@@ -48,7 +48,11 @@ func Execute(app app.Application) error {
 						Name:  "update",
 						Usage: "",
 						Action: func(c *cli.Context) error {
-							return nil
+							tweet, err := tweetCommand.GetTweetById(c.Args().First())
+							app.Commands.UpdateTweet.Handle(context.Background(), command.CreateTweet{
+								Tweet: tweet,
+							})
+							return err
 						},
 						After: func(c *cli.Context) error {
 							// log.Println("After", c.Context.Value("profile_id"))

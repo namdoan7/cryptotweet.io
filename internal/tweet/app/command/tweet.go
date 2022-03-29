@@ -13,3 +13,15 @@ func NewCreateTweetHandler(tweetRepository tweet.Repository) *CreateTweetHandler
 func (h CreateTweetHandler) Handle(tweet tweet.Tweet) error {
 	return h.TweetRepository.Create(tweet)
 }
+
+type UpdateTweetHandler struct {
+	TweetRepository tweet.Repository
+}
+
+func NewUpdateTweetHandler(tweetRepository tweet.Repository) *UpdateTweetHandler {
+	return &UpdateTweetHandler{TweetRepository: tweetRepository}
+}
+
+func (h UpdateTweetHandler) Handle(tweet tweet.Tweet) error {
+	return h.TweetRepository.Update(tweet)
+}

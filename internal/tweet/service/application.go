@@ -22,11 +22,12 @@ func NewApplication() app.Application {
 	if err := client.Ping(context.Background(), readpref.Primary()); err != nil {
 		panic(err)
 	}
-	hourRepository := adapters.NewMongoTweetRepository(client.Database("tweets"))
+	repository := adapters.NewMongoTweetRepository(client.Database("tweets"))
 
 	return app.Application{
 		Commands: app.Commands{
-			CreateTweet: *command.NewCreateTweetHandler(hourRepository),
+			CreateTweet: *command.NewCreateTweetHandler(repository),
+			UpdateTweet: *command.NewUpdateTweetHandler(repository),
 		},
 	}
 }

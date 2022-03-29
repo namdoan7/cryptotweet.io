@@ -10,11 +10,7 @@ import (
 )
 
 func NewApplication(ctx context.Context) (app.Application, func()) {
-	tweetClient, _, err := client.NewTweetClient()
-	if err != nil {
-		panic(err)
-	}
-
+	tweetClient, _, _ := client.NewTweetClient()
 	// usersClient, closeUsersClient, err := grpcClient.NewUsersClient()
 	// if err != nil {
 	// 	panic(err)
@@ -33,6 +29,7 @@ func newApplication(ctx context.Context, tweetGrpc command.TweetService) app.App
 	return app.Application{
 		Commands: app.Commands{
 			CreateTweet: command.NewCreateTweetHandler(tweetGrpc),
+			UpdateTweet: command.NewUpdateTweetHandler(tweetGrpc),
 		},
 	}
 }

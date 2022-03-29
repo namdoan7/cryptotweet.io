@@ -8,4 +8,5 @@ import (
 
 type TweetService interface {
 	CreateTweet(ctx context.Context, tweet *tweet.Tweet) error
+	UpdateTweet(ctx context.Context, tweet *tweet.Tweet) error
 }

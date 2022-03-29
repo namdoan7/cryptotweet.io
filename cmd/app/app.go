@@ -8,4 +8,5 @@ type Application struct {
 
 type Commands struct {
 	CreateTweet command.CreateTweetHandler
+	UpdateTweet command.UpdateTweetHandler
 }
