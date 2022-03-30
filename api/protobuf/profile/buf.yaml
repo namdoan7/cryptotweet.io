@@ -1,0 +1,7 @@
+version: v1beta1
+deps:
+    - buf.build/beta/googleapis
+    # - buf.build/beta/protoc-gen-validate
+build:
+    roots:
+        - .

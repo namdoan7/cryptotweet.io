@@ -6,6 +6,7 @@ import (
 
 	"github.com/chidiwilliams/flatbson"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )

@@ -1,0 +1,11 @@
+type: google.api.Service
+config_version: 3
+
+http:
+    rules:
+        - selector: tweet.TweetService.Create
+          post: /v1/tweet
+          body: "*"
+        # - selector: collection.CollectionService.Update
+        #   patch: /v1/collection/{data.id}
+        #   body: "*"
