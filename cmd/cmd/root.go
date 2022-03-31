@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"context"
-	"log"
 	"os"
 
+	"github.com/k0kubun/pp/v3"
 	"github.com/levinhne/cryptotweet.io/cmd/app"
 	"github.com/levinhne/cryptotweet.io/cmd/app/command"
 	"github.com/urfave/cli/v2"
@@ -91,9 +91,9 @@ func Execute(app app.Application) error {
 						Name:  "add",
 						Usage: "",
 						Action: func(c *cli.Context) error {
-							_, e := profileCommand.GetProfileById(c.Args().First())
-							log.Println(e)
-							return nil
+							profile, err := profileCommand.GetProfileById(c.Args().First())
+							pp.Println(profile)
+							return err
 						},
 						After: func(c *cli.Context) error {
 							// log.Println("After", c.Context.Value("profile_id"))
