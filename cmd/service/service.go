@@ -10,26 +10,31 @@ import (
 )
 
 func NewApplication(ctx context.Context) (app.Application, func()) {
-	tweetClient, _, _ := client.NewTweetClient()
-	// usersClient, closeUsersClient, err := grpcClient.NewUsersClient()
-	// if err != nil {
-	// 	panic(err)
-	// }
+	// tweet client
+	tweetClient, closeTweetClient, _ := client.NewTweetClient()
 	tweetGrpc := adapters.NewTweetGrpc(tweetClient)
-	// usersGrpc := adapters.NewUsersGrpc(usersClient)
 
-	return newApplication(ctx, tweetGrpc),
+	// profile client
+	profileClient, closeProfileClient, _ := client.NewProfileClient()
+	profileGrpc := adapters.NewProfileGrpc(profileClient)
+
+	return newApplication(ctx, tweetGrpc, profileGrpc),
 		func() {
-			// _ = closeTrainerClient()
-			// _ = closeUsersClient()
+			_ = closeTweetClient()
+			_ = closeProfileClient()
 		}
 }
 
-func newApplication(ctx context.Context, tweetGrpc command.TweetService) app.Application {
+func newApplication(
+	ctx context.Context,
+	tweetGrpc command.TweetService,
+	profileGrpc command.ProfileService,
+) app.Application {
 	return app.Application{
 		Commands: app.Commands{
-			CreateTweet: command.NewCreateTweetHandler(tweetGrpc),
-			UpdateTweet: command.NewUpdateTweetHandler(tweetGrpc),
+			CreateTweet:   command.NewCreateTweetHandler(tweetGrpc),
+			UpdateTweet:   command.NewUpdateTweetHandler(tweetGrpc),
+			CreateProfile: command.NewCreateProfileHandler(profileGrpc),
 		},
 	}
 }

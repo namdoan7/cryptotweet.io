@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 
+	profilepb "github.com/levinhne/cryptotweet.io/internal/common/genproto/profile"
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
@@ -30,6 +31,26 @@ func NewTweetClient() (client tweetpb.TweetServiceClient, close func() error, er
 	}
 
 	return tweetpb.NewTweetServiceClient(conn), conn.Close, nil
+}
+
+func NewProfileClient() (client profilepb.ProfileServiceClient, close func() error, err error) {
+	grpcAddr := os.Getenv("PROFILE_GRPC_ADDR")
+	if grpcAddr == "" {
+		return nil, func() error { return nil }, errors.New("empty env PROFILE_GRPC_ADDR")
+	}
+
+	opts, err := grpcDialOpts(grpcAddr)
+
+	if err != nil {
+		return nil, func() error { return nil }, err
+	}
+
+	conn, err := grpc.Dial(grpcAddr, opts...)
+	if err != nil {
+		return nil, func() error { return nil }, err
+	}
+
+	return profilepb.NewProfileServiceClient(conn), conn.Close, nil
 }
 
 func grpcDialOpts(grpcAddr string) ([]grpc.DialOption, error) {

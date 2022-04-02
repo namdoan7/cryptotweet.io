@@ -36,7 +36,7 @@ type Profile struct {
 	Verified         bool      `bson:"verified,omitempty" json:"verified,omitempty"`
 	Description      string    `bson:"description,omitempty" json:"description,omitempty"`
 	Entities         Entities  `bson:"entities,omitempty" json:"entities,omitempty"`
-	ProfileImageUrl  string    `bson:"profile_image_url,omitempty" json:"profile_image_url_https,omitempty"`
+	ProfileImageUrl  string    `bson:"profile_image_url,omitempty" json:"profile_image_url,omitempty"`
 	ProfileBannerUrl string    `bson:"profile_banner_url,omitempty" json:"profile_banner_url,omitempty"`
 	PinnedTweetIds   []string  `bson:"pinned_tweet_ids,omitempty" json:"pinned_tweet_ids,omitempty"`
 	CreatedAt        time.Time `bson:"created_at,omitempty"`

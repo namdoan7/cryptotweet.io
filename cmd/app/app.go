@@ -7,6 +7,7 @@ type Application struct {
 }
 
 type Commands struct {
-	CreateTweet command.CreateTweetHandler
-	UpdateTweet command.UpdateTweetHandler
+	CreateTweet   command.CreateTweetHandler
+	UpdateTweet   command.UpdateTweetHandler
+	CreateProfile command.CreateProfileHandler
 }

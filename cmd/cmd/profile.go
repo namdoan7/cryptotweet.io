@@ -61,11 +61,14 @@ func (c *ProfleCommand) GetProfileById(profileId string) (*profile.Profile, erro
 	}
 	var data []byte
 	err = chromedp.Run(ctx, chromedp.ActionFunc(func(ctx context.Context) error {
-		data, err = network.GetResponseBody(requestId).Do(ctx)
+		body, err := network.GetResponseBody(requestId).Do(ctx)
 		if err != nil {
 			return err
 		}
-		data, _, _, err = jsonparser.Get(data, "data", "user", "result") // legacy
+		bodyJson := string(body)
+		bodyJson = strings.ReplaceAll(bodyJson, "profile_image_url_https", "profile_image_url")
+		bodyJson = strings.ReplaceAll(bodyJson, "pinned_tweet_ids_str", "pinned_tweet_ids")
+		data, _, _, err = jsonparser.Get([]byte(bodyJson), "data", "user", "result") // legacy
 		return err
 	}))
 	if err != nil {
