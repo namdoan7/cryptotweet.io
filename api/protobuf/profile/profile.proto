@@ -5,14 +5,62 @@ package profile;
 // import "google/api/annotations.proto";
 // import "google/protobuf/struct.proto";
 // import "google/protobuf/empty.proto";
+import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/levinhne/cryptotweet.io/profile/protobuf;profile";
 
 service ProfileService {
+	rpc Find(FindProfileRequest) returns (FindProfileResponse) {}
 	rpc Create (CreateProfileRequest) returns (CreateProfileResponse) {}
 	// rpc Update (UpdateProfileRequest) returns (UpdateProfileResponse) {}
 	// rpc Delete (DeleteProfileRequest) returns (google.protobuf.Empty) {}
+}
+
+message FindProfileRequest {
+
+}
+
+message FindProfileResponse {
+	message Profile {
+		string id = 1;
+		string profile_twitter_id = 2;
+		string name = 3;
+		string screen_name = 4;
+		int32 favourites_count = 5;
+		int32 followers_count = 6;
+		int32 friends_count = 10;
+		bool verified = 7;
+		string description = 8;
+		string profile_image_url = 9;
+		string profile_banner_url = 11;
+		repeated string pinned_tweet_ids = 12;
+		Entities entities = 17;
+		google.protobuf.Timestamp created_at = 18;
+		google.protobuf.Timestamp updated_at = 19;
+	}
+  	repeated Profile data = 1;
+}
+
+message Entity {
+	repeated int32 indices = 1;
+	string text = 2;
+	string url = 3;
+	string display_url = 4;
+	string expanded_url = 5;
+}
+
+message EntityDescription {
+	repeated Entity urls = 1;
+}
+
+message EntityUrl {
+	repeated Entity urls = 1;
+}
+
+message Entities {
+	EntityDescription description = 1;
+	EntityUrl url = 2;
 }
 
 message CreateProfileRequest {
@@ -22,10 +70,13 @@ message CreateProfileRequest {
 	string screen_name = 4;
 	int32 favourites_count = 5;
 	int32 followers_count = 6;
+	int32 friends_count = 10;
 	bool verified = 7;
 	string description = 8;
 	string profile_image_url = 9;
-	// google.protobuf.Struct entities = 17;
+	string profile_banner_url = 11;
+	repeated string pinned_tweet_ids = 12;
+	Entities entities = 17;
 	google.protobuf.Timestamp created_at = 18;
 	google.protobuf.Timestamp updated_at = 19;
 }
@@ -33,3 +84,4 @@ message CreateProfileRequest {
 message CreateProfileResponse {
 	
 }
+

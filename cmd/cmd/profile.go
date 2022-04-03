@@ -98,5 +98,6 @@ func (c *ProfleCommand) GetProfileById(profileId string) (*profile.Profile, erro
 	if err != nil {
 		return nil, err
 	}
+	profile.UpdatedAt = profile.CreatedAt
 	return &profile, err
 }

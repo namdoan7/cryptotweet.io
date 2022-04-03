@@ -6,6 +6,7 @@ import (
 	"github.com/levinhne/cryptotweet.io/internal/profile/adapters"
 	"github.com/levinhne/cryptotweet.io/internal/profile/app"
 	"github.com/levinhne/cryptotweet.io/internal/profile/app/command"
+	"github.com/levinhne/cryptotweet.io/internal/profile/app/query"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -27,6 +28,9 @@ func NewApplication() app.Application {
 	return app.Application{
 		Commands: app.Commands{
 			CreateProfile: *command.NewCreateProfileHandler(repository),
+		},
+		Queries: app.Queries{
+			FindProfile: *query.NewFindProfileHandler(repository),
 		},
 	}
 }

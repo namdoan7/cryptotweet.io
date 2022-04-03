@@ -2,6 +2,7 @@ package adapters
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/chidiwilliams/flatbson"
@@ -16,6 +17,19 @@ type MongoProfileRepository struct {
 
 func NewMongoProfileRepository(mongodb *mongo.Database) *MongoProfileRepository {
 	return &MongoProfileRepository{MongoDB: mongodb}
+}
+
+func (m MongoProfileRepository) Find() ([]profile.Profile, error) {
+	cursor, err := m.MongoDB.Collection("profiles").Find(context.Background(), bson.M{})
+	if err != nil {
+		return make([]profile.Profile, 0), err
+	}
+	var profiles []profile.Profile
+	if err = cursor.All(context.Background(), &profiles); err != nil {
+		log.Fatal(err)
+	}
+	log.Println(profiles)
+	return profiles, err
 }
 
 func (m MongoProfileRepository) Create(document profile.Profile) error {

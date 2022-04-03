@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProfileServiceClient interface {
+	Find(ctx context.Context, in *FindProfileRequest, opts ...grpc.CallOption) (*FindProfileResponse, error)
 	Create(ctx context.Context, in *CreateProfileRequest, opts ...grpc.CallOption) (*CreateProfileResponse, error)
 }
 
@@ -31,6 +32,15 @@ type profileServiceClient struct {
 
 func NewProfileServiceClient(cc grpc.ClientConnInterface) ProfileServiceClient {
 	return &profileServiceClient{cc}
+}
+
+func (c *profileServiceClient) Find(ctx context.Context, in *FindProfileRequest, opts ...grpc.CallOption) (*FindProfileResponse, error) {
+	out := new(FindProfileResponse)
+	err := c.cc.Invoke(ctx, "/profile.ProfileService/Find", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *profileServiceClient) Create(ctx context.Context, in *CreateProfileRequest, opts ...grpc.CallOption) (*CreateProfileResponse, error) {
@@ -46,6 +56,7 @@ func (c *profileServiceClient) Create(ctx context.Context, in *CreateProfileRequ
 // All implementations should embed UnimplementedProfileServiceServer
 // for forward compatibility
 type ProfileServiceServer interface {
+	Find(context.Context, *FindProfileRequest) (*FindProfileResponse, error)
 	Create(context.Context, *CreateProfileRequest) (*CreateProfileResponse, error)
 }
 
@@ -53,6 +64,9 @@ type ProfileServiceServer interface {
 type UnimplementedProfileServiceServer struct {
 }
 
+func (UnimplementedProfileServiceServer) Find(context.Context, *FindProfileRequest) (*FindProfileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Find not implemented")
+}
 func (UnimplementedProfileServiceServer) Create(context.Context, *CreateProfileRequest) (*CreateProfileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
@@ -66,6 +80,24 @@ type UnsafeProfileServiceServer interface {
 
 func RegisterProfileServiceServer(s grpc.ServiceRegistrar, srv ProfileServiceServer) {
 	s.RegisterService(&ProfileService_ServiceDesc, srv)
+}
+
+func _ProfileService_Find_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindProfileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProfileServiceServer).Find(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/profile.ProfileService/Find",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProfileServiceServer).Find(ctx, req.(*FindProfileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _ProfileService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -93,6 +125,10 @@ var ProfileService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "profile.ProfileService",
 	HandlerType: (*ProfileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Find",
+			Handler:    _ProfileService_Find_Handler,
+		},
 		{
 			MethodName: "Create",
 			Handler:    _ProfileService_Create_Handler,

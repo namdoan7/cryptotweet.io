@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
 
-	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
+	profilepb "github.com/levinhne/cryptotweet.io/internal/common/genproto/profile"
 )
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 			DiscardUnknown: false,
 		},
 	}))
-	err = tweetpb.RegisterTweetServiceHandler(context.Background(), gwmux, conn)
+	err = profilepb.RegisterProfileServiceHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		log.Fatalln("Failed to register gateway111:", err)
 	}

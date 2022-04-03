@@ -3,6 +3,7 @@ go 1.18
 use (
 	./cmd
 	./internal/common
+	./internal/gateway
 	./internal/profile
 	./internal/tweet
 )

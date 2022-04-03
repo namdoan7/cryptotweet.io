@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"context"
+	"log"
 	"os"
 
-	"github.com/k0kubun/pp/v3"
 	"github.com/levinhne/cryptotweet.io/cmd/app"
 	"github.com/levinhne/cryptotweet.io/cmd/app/command"
 	"github.com/urfave/cli/v2"
@@ -92,7 +92,10 @@ func Execute(app app.Application) error {
 						Usage: "",
 						Action: func(c *cli.Context) error {
 							profile, err := profileCommand.GetProfileById(c.Args().First())
-							pp.Println(profile)
+							log.Println(profile)
+							app.Commands.CreateProfile.Handle(context.Background(), command.CreateProfile{
+								Profile: profile,
+							})
 							return err
 						},
 						After: func(c *cli.Context) error {
