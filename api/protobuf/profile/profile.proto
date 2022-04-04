@@ -5,7 +5,6 @@ package profile;
 // import "google/api/annotations.proto";
 // import "google/protobuf/struct.proto";
 // import "google/protobuf/empty.proto";
-import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/levinhne/cryptotweet.io/profile/protobuf;profile";
@@ -64,7 +63,7 @@ message Entities {
 	EntityUrl url = 2;
 }
 
-message CreateProfileRequest {
+message Profile {
 	string id = 1;
 	string profile_twitter_id = 2;
 	string name = 3;
@@ -77,9 +76,28 @@ message CreateProfileRequest {
 	string profile_image_url = 9;
 	string profile_banner_url = 11;
 	repeated string pinned_tweet_ids = 12;
+	enum Status{
+        INACTIVE = 0;
+        ACTIVE = 1;
+    }
+	Status status = 13;
 	Entities entities = 17;
 	google.protobuf.Timestamp created_at = 18;
 	google.protobuf.Timestamp updated_at = 19;
+}
+
+message FindProfileRequest {
+	
+}
+
+message FindProfileResponse {
+  	repeated Profile data = 1;
+}
+
+
+
+message CreateProfileRequest {
+	Profile profile = 1;
 }
 
 message CreateProfileResponse {
