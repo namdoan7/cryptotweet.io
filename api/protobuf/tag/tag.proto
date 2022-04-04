@@ -12,6 +12,19 @@ service TagService {
 	rpc Create (CreateTagtRequest) returns (CreateTagResponse) {}
 }
 
+message Tag {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    enum Status{
+        INACTIVE = 0;
+        ACTIVE = 1;
+    }
+    Status status = 4;
+    google.protobuf.Timestamp published_at = 8;
+    google.protobuf.Timestamp updated_at = 9;
+}
+
 message CreateTagtRequest {
     string id = 1;
     string name = 2;
