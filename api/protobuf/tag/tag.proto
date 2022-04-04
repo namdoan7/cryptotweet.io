@@ -9,14 +9,14 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/levinhne/cryptotweet.io/tag/protobuf;tag";
 
 service TagService {
-	rpc Create (CreateTagtRequest) returns (CreateTagResponse) {}
+	rpc FindOrCreate (FindOrCreateRequest) returns (FindOrCreateResponse) {}
 }
 
 message Tag {
     string id = 1;
     string name = 2;
     string description = 3;
-    enum Status{
+    enum Status {
         INACTIVE = 0;
         ACTIVE = 1;
     }
@@ -25,16 +25,10 @@ message Tag {
     google.protobuf.Timestamp updated_at = 9;
 }
 
-message CreateTagtRequest {
-    string id = 1;
-    string name = 2;
-    string description = 3;
-    google.protobuf.Timestamp published_at = 8;
-    google.protobuf.Timestamp updated_at = 9;
+message FindOrCreateRequest {
+    string name = 1;
 }
 
-message CreateTagResponse {
-    string id = 1;
-    string name = 2;
-    string description = 3;
+message FindOrCreateResponse {
+    Tag data = 1;
 }

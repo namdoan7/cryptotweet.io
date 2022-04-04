@@ -16,32 +16,6 @@ service ProfileService {
 	// rpc Delete (DeleteProfileRequest) returns (google.protobuf.Empty) {}
 }
 
-message Profile {
-	string id = 1;
-	string profile_twitter_id = 2;
-	string name = 3;
-	string screen_name = 4;
-	int32 favourites_count = 5;
-	int32 followers_count = 6;
-	int32 friends_count = 10;
-	bool verified = 7;
-	string description = 8;
-	string profile_image_url = 9;
-	string profile_banner_url = 11;
-	repeated string pinned_tweet_ids = 12;
-	Entities entities = 17;
-	google.protobuf.Timestamp created_at = 18;
-	google.protobuf.Timestamp updated_at = 19;
-}
-
-message FindProfileRequest {
-
-}
-
-message FindProfileResponse {
-  	repeated Profile data = 1;
-}
-
 message Entity {
 	repeated int32 indices = 1;
 	string text = 2;
@@ -87,14 +61,12 @@ message Profile {
 }
 
 message FindProfileRequest {
-	
+
 }
 
 message FindProfileResponse {
   	repeated Profile data = 1;
 }
-
-
 
 message CreateProfileRequest {
 	Profile profile = 1;
