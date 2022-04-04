@@ -44,43 +44,6 @@ func Execute(app app.Application) error {
 							return nil
 						},
 					},
-					{
-						Name:  "update",
-						Usage: "",
-						Action: func(c *cli.Context) error {
-							tweet, err := tweetCommand.GetTweetById(c.Args().First())
-							app.Commands.UpdateTweet.Handle(context.Background(), command.CreateTweet{
-								Tweet: tweet,
-							})
-							return err
-						},
-						After: func(c *cli.Context) error {
-							// log.Println("After", c.Context.Value("profile_id"))
-							return nil
-						},
-					},
-					{
-						Name:  "publish",
-						Usage: "",
-						Action: func(c *cli.Context) error {
-							return nil
-						},
-						After: func(c *cli.Context) error {
-							// log.Println("After", c.Context.Value("profile_id"))
-							return nil
-						},
-					},
-					{
-						Name:  "remove",
-						Usage: "",
-						Action: func(c *cli.Context) error {
-							return nil
-						},
-						After: func(c *cli.Context) error {
-							// log.Println("After", c.Context.Value("profile_id"))
-							return nil
-						},
-					},
 				},
 			},
 			{
@@ -96,6 +59,27 @@ func Execute(app app.Application) error {
 							app.Commands.CreateProfile.Handle(context.Background(), command.CreateProfile{
 								Profile: profile,
 							})
+							return err
+						},
+						After: func(c *cli.Context) error {
+							// log.Println("After", c.Context.Value("profile_id"))
+							return nil
+						},
+					},
+				},
+			},
+			{
+				Name:  "tag",
+				Usage: "",
+				Subcommands: []*cli.Command{
+					{
+						Name:  "test",
+						Usage: "",
+						Action: func(c *cli.Context) error {
+							tag, err := app.Commands.FinOrCreateTag.Handle(context.Background(), command.FindOrCreateTag{
+								Name: c.Args().First(),
+							})
+							log.Println(tag)
 							return err
 						},
 						After: func(c *cli.Context) error {

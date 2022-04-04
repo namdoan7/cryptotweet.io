@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/levinhne/cryptotweet.io/internal/profile/domain/profile"
+	"github.com/levinhne/cryptotweet.io/internal/tag/domain/tag"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 )
 
@@ -17,5 +18,5 @@ type ProfileService interface {
 }
 
 type TagService interface {
-	FindOrCreate(ctx context.Context, name string) error
+	FindOrCreate(ctx context.Context, name string) (tag.Tag, error)
 }

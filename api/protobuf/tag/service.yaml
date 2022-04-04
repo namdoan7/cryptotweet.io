@@ -3,9 +3,9 @@ config_version: 3
 
 http:
     rules:
-        - selector: tweet.TweetService.Create
-          post: /v1/tweet
-          body: "*"
+        - selector: tag.TagService.FindOrCreate
+          post: /v1/tag1
+          body: "tag11"
         # - selector: collection.CollectionService.Update
         #   patch: /v1/collection/{data.id}
         #   body: "*"
