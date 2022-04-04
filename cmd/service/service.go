@@ -18,10 +18,15 @@ func NewApplication(ctx context.Context) (app.Application, func()) {
 	profileClient, closeProfileClient, _ := client.NewProfileClient()
 	profileGrpc := adapters.NewProfileGrpc(profileClient)
 
-	return newApplication(ctx, tweetGrpc, profileGrpc),
+	// taf client
+	tagClient, closeTagClient, _ := client.NewTagClient()
+	tagGrpc := adapters.NewTagGrpc(tagClient)
+
+	return newApplication(ctx, tweetGrpc, profileGrpc, tagGrpc),
 		func() {
-			_ = closeTweetClient()
-			_ = closeProfileClient()
+			closeTweetClient()
+			closeProfileClient()
+			closeTagClient()
 		}
 }
 
@@ -29,12 +34,14 @@ func newApplication(
 	ctx context.Context,
 	tweetGrpc command.TweetService,
 	profileGrpc command.ProfileService,
+	tagGrpc command.TagService,
 ) app.Application {
 	return app.Application{
 		Commands: app.Commands{
-			CreateTweet:   command.NewCreateTweetHandler(tweetGrpc),
-			UpdateTweet:   command.NewUpdateTweetHandler(tweetGrpc),
-			CreateProfile: command.NewCreateProfileHandler(profileGrpc),
+			CreateTweet:    command.NewCreateTweetHandler(tweetGrpc),
+			UpdateTweet:    command.NewUpdateTweetHandler(tweetGrpc),
+			CreateProfile:  command.NewCreateProfileHandler(profileGrpc),
+			FinOrCreateTag: command.NewFindOrCreateTagHandler(tagGrpc),
 		},
 	}
 }

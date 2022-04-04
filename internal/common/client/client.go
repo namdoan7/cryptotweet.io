@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	profilepb "github.com/levinhne/cryptotweet.io/internal/common/genproto/profile"
+	tagpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tag"
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
@@ -51,6 +52,26 @@ func NewProfileClient() (client profilepb.ProfileServiceClient, close func() err
 	}
 
 	return profilepb.NewProfileServiceClient(conn), conn.Close, nil
+}
+
+func NewTagClient() (client tagpb.TagServiceClient, close func() error, err error) {
+	grpcAddr := os.Getenv("TAG_GRPC_ADDR")
+	if grpcAddr == "" {
+		return nil, func() error { return nil }, errors.New("empty env TAG_GRPC_ADDR")
+	}
+
+	opts, err := grpcDialOpts(grpcAddr)
+
+	if err != nil {
+		return nil, func() error { return nil }, err
+	}
+
+	conn, err := grpc.Dial(grpcAddr, opts...)
+	if err != nil {
+		return nil, func() error { return nil }, err
+	}
+
+	return tagpb.NewTagServiceClient(conn), conn.Close, nil
 }
 
 func grpcDialOpts(grpcAddr string) ([]grpc.DialOption, error) {

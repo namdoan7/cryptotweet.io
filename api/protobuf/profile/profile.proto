@@ -50,7 +50,7 @@ message Profile {
 	string profile_image_url = 9;
 	string profile_banner_url = 11;
 	repeated string pinned_tweet_ids = 12;
-	enum Status{
+	enum Status {
         INACTIVE = 0;
         ACTIVE = 1;
     }

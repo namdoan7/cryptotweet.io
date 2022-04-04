@@ -15,3 +15,7 @@ type TweetService interface {
 type ProfileService interface {
 	CreateProfile(ctx context.Context, profile *profile.Profile) error
 }
+
+type TagService interface {
+	FindOrCreate(ctx context.Context, name string) error
+}
