@@ -32,18 +32,17 @@ func NewGrpcServer(application app.Application) GrpcServer {
 
 func (g GrpcServer) Find(ctx context.Context, in *profilepb.FindProfileRequest) (*profilepb.FindProfileResponse, error) {
 	proflies, _ := g.app.Queries.FindProfile.Handle()
-	data := make([]*profilepb.FindProfileResponse_Profile, 0)
+	var data = make([]*profilepb.Profile, 0)
 	for _, profile := range proflies {
-		data = append(data, &profilepb.FindProfileResponse_Profile{
-			ScreenName: profile.ScreenName,
+		data = append(data, &profilepb.Profile{
+			Name: profile.Name,
 		})
 	}
-
 	return &profilepb.FindProfileResponse{Data: data}, nil
 }
 
 func (g GrpcServer) Create(ctx context.Context, in *profilepb.CreateProfileRequest) (*profilepb.CreateProfileResponse, error) {
-	profile := trans[profile.Profile](in)
+	profile := trans[profile.Profile](in.Profile)
 	g.app.Commands.CreateProfile.Handle(profile)
 	return &profilepb.CreateProfileResponse{}, nil
 }

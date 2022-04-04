@@ -19,12 +19,12 @@ func NewProfileGrpc(client profilepb.ProfileServiceClient) ProfileGrpc {
 
 func (s ProfileGrpc) CreateProfile(ctx context.Context, proflile *profile.Profile) error {
 	ee, err := json.Marshal(proflile)
-	var createProfileRequest profilepb.CreateProfileRequest
+	var profileP profilepb.Profile
 	um := protojson.UnmarshalOptions{
 		DiscardUnknown: true,
 	}
-	err = um.Unmarshal(ee, &createProfileRequest)
-	_, err = s.client.Create(ctx, &createProfileRequest)
+	err = um.Unmarshal(ee, &profileP)
+	_, err = s.client.Create(ctx, &profilepb.CreateProfileRequest{Profile: &profileP})
 	return err
 }
 
