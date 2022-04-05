@@ -17,10 +17,10 @@ func NewMongoTagRepository(mongodb *mongo.Database) *MongoTagRepository {
 	return &MongoTagRepository{MongoDB: mongodb}
 }
 
-func (m MongoTagRepository) FindOrCreate(name string) (tag.Tag, error) {
-	filter := bson.M{"name": name}
+func (m MongoTagRepository) FindOrCreate(tag tag.Tag) (*tag.Tag, error) {
+	filter := bson.M{"name": tag.Name}
 	update := bson.M{
-		"$set": bson.M{"name": name},
+		"$set": bson.M{"name": tag.Name},
 	}
 	upsert := true
 	after := options.After
@@ -29,7 +29,6 @@ func (m MongoTagRepository) FindOrCreate(name string) (tag.Tag, error) {
 		Upsert:         &upsert,
 	}
 	result := m.MongoDB.Collection("tags").FindOneAndUpdate(context.Background(), filter, update, &opts)
-	var tag tag.Tag
 	err := result.Decode(&tag)
-	return tag, err
+	return &tag, err
 }

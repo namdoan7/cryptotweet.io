@@ -1,5 +1,5 @@
 package tag
 
 type Repository interface {
-	FindOrCreate(name string) (Tag, error)
+	FindOrCreate(tag Tag) (*Tag, error)
 }
