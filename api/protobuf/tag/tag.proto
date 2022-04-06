@@ -16,11 +16,12 @@ message Tag {
     string id = 1;
     string name = 2;
     string description = 3;
+    string type = 4;
     enum Status {
         INACTIVE = 0;
         ACTIVE = 1;
     }
-    Status status = 4;
+    Status status = 5;
     google.protobuf.Timestamp published_at = 8;
     google.protobuf.Timestamp updated_at = 9;
 }

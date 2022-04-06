@@ -7,6 +7,7 @@ import (
 
 	"github.com/levinhne/cryptotweet.io/cmd/app"
 	"github.com/levinhne/cryptotweet.io/cmd/app/command"
+	"github.com/levinhne/cryptotweet.io/internal/tag/domain/tag"
 	"github.com/urfave/cli/v2"
 )
 
@@ -77,7 +78,9 @@ func Execute(app app.Application) error {
 						Usage: "",
 						Action: func(c *cli.Context) error {
 							tag, err := app.Commands.FinOrCreateTag.Handle(context.Background(), command.FindOrCreateTag{
-								Name: c.Args().First(),
+								Tag: tag.Tag{
+									Name: c.Args().First(),
+								},
 							})
 							log.Println(tag)
 							return err

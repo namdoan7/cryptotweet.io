@@ -7,7 +7,7 @@ import (
 )
 
 type FindOrCreateTag struct {
-	Name string
+	Tag tag.Tag
 }
 
 type FindOrCreateTagHandler struct {
@@ -18,7 +18,7 @@ func NewFindOrCreateTagHandler(tagService TagService) FindOrCreateTagHandler {
 	return FindOrCreateTagHandler{TagService: tagService}
 }
 
-func (h FindOrCreateTagHandler) Handle(ctx context.Context, cmd FindOrCreateTag) (tag.Tag, error) {
-	tag, err := h.TagService.FindOrCreate(ctx, cmd.Name)
+func (h FindOrCreateTagHandler) Handle(ctx context.Context, cmd FindOrCreateTag) (*tag.Tag, error) {
+	tag, err := h.TagService.FindOrCreate(ctx, cmd.Tag)
 	return tag, err
 }
