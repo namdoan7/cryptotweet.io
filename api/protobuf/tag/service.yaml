@@ -4,8 +4,8 @@ config_version: 3
 http:
     rules:
         - selector: tag.TagService.FindOrCreate
-          post: /v1/tag1
-          body: "tag11"
+          post: /v1/tag
+          body: "tag"
         # - selector: collection.CollectionService.Update
         #   patch: /v1/collection/{data.id}
         #   body: "*"
