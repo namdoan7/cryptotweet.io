@@ -3,7 +3,6 @@ package adapters
 import (
 	"context"
 	"encoding/json"
-	"log"
 
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	tweet "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
@@ -25,7 +24,7 @@ func (s TweetGrpc) CreateTweet(ctx context.Context, tweet *tweet.Tweet) error {
 		DiscardUnknown: true,
 	}
 	err = um.Unmarshal(ee, &createTweetRequest)
-	_, err = s.client.Create(ctx, &createTweetRequest)
+	_, err = s.client.CreateTweet(ctx, &createTweetRequest)
 	return err
 }
 
@@ -37,7 +36,6 @@ func (s TweetGrpc) UpdateTweet(ctx context.Context, tweet *tweet.Tweet) error {
 		DiscardUnknown: true,
 	}
 	err = um.Unmarshal(ee, &updateTweetRequest)
-	log.Println(111111, updateTweetRequest.String())
-	_, err = s.client.Update(ctx, &updateTweetRequest)
+	_, err = s.client.UpdateTweet(ctx, &updateTweetRequest)
 	return err
 }

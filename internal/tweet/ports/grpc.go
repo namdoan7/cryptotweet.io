@@ -31,7 +31,17 @@ func NewGrpcServer(application app.Application) GrpcServer {
 	return GrpcServer{app: application}
 }
 
-func (g GrpcServer) Create(ctx context.Context, in *tweetpb.CreateTweetRequest) (*tweetpb.CreateTweetResponse, error) {
+func (g GrpcServer) ListTweets(ctx context.Context, in *tweetpb.ListTweetsRequest) (*tweetpb.ListTweetsResponse, error) {
+	tt, err := g.app.Queries.ListTweets.Handle()
+	log.Println(tt)
+	tweets := make([]*tweetpb.Tweet, 0)
+	for _, t := range tt {
+		tweets = append(tweets, &tweetpb.Tweet{Text: t.Text})
+	}
+	return &tweetpb.ListTweetsResponse{Tweets: tweets}, err
+}
+
+func (g GrpcServer) CreateTweet(ctx context.Context, in *tweetpb.CreateTweetRequest) (*tweetpb.CreateTweetResponse, error) {
 	tweet := trans[tweet.Tweet](in)
 	g.app.Commands.CreateTweet.Handle(tweet)
 	return &tweetpb.CreateTweetResponse{}, nil

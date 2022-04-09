@@ -7,8 +7,8 @@ type Application struct {
 }
 
 type Commands struct {
-	CreateTweet    command.CreateTweetHandler
-	UpdateTweet    command.UpdateTweetHandler
-	CreateProfile  command.CreateProfileHandler
-	FinOrCreateTag command.FindOrCreateTagHandler
+	CreateTweet   command.CreateTweetHandler
+	UpdateTweet   command.UpdateTweetHandler
+	CreateProfile command.CreateProfileHandler
+	// FinOrCreateTag command.FindOrCreateTagHandler
 }

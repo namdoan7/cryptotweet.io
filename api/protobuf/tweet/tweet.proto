@@ -11,10 +11,7 @@ option go_package = "github.com/levinhne/cryptotweet.io/tweet/protobuf;tweet";
 
 service TweetService {
     rpc ListTweets (ListTweetsRequest) returns (ListTweetsResponse) {}
-    rpc GetTweet (GetTweetRequest) returns (Tweet) {}
-    rpc CreateTweet (CreateTweetRequest) returns (Tweet) {}
-	rpc Create (CreateTweetRequest) returns (CreateTweetResponse) {}
-    rpc Update (UpdateTweetRequest) returns (UpdateTweetResponse) {}
+    rpc CreateTweet (CreateTweetRequest) returns (CreateTweetResponse) {}
     rpc UpdateTweet (UpdateTweetRequest) returns (Tweet) {}
 }
 
@@ -72,6 +69,7 @@ message ListTweetsRequest {
     int32 page_size = 2;
     string page_token = 3;
 }
+
 
 message ListTweetsResponse {
     repeated Tweet tweets = 1;

@@ -38,10 +38,10 @@ func newApplication(
 ) app.Application {
 	return app.Application{
 		Commands: app.Commands{
-			CreateTweet:    command.NewCreateTweetHandler(tweetGrpc),
-			UpdateTweet:    command.NewUpdateTweetHandler(tweetGrpc),
-			CreateProfile:  command.NewCreateProfileHandler(profileGrpc),
-			FinOrCreateTag: command.NewFindOrCreateTagHandler(tagGrpc),
+			CreateTweet:   command.NewCreateTweetHandler(tweetGrpc),
+			UpdateTweet:   command.NewUpdateTweetHandler(tweetGrpc),
+			CreateProfile: command.NewCreateProfileHandler(profileGrpc),
+			// FinOrCreateTag: command.NewFindOrCreateTagHandler(tagGrpc),
 		},
 	}
 }

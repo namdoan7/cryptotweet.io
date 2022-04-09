@@ -6,6 +6,7 @@ import (
 	"github.com/levinhne/cryptotweet.io/internal/tweet/ports"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/service"
 	"google.golang.org/grpc"
+	_ "google.golang.org/grpc/encoding/gzip"
 )
 
 func main() {

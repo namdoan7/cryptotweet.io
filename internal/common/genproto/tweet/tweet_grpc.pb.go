@@ -22,8 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TweetServiceClient interface {
-	Create(ctx context.Context, in *CreateTweetRequest, opts ...grpc.CallOption) (*CreateTweetResponse, error)
-	Update(ctx context.Context, in *UpdateTweetRequest, opts ...grpc.CallOption) (*UpdateTweetResponse, error)
+	ListTweets(ctx context.Context, in *ListTweetsRequest, opts ...grpc.CallOption) (*ListTweetsResponse, error)
+	CreateTweet(ctx context.Context, in *CreateTweetRequest, opts ...grpc.CallOption) (*CreateTweetResponse, error)
+	UpdateTweet(ctx context.Context, in *UpdateTweetRequest, opts ...grpc.CallOption) (*Tweet, error)
 }
 
 type tweetServiceClient struct {
@@ -34,18 +35,27 @@ func NewTweetServiceClient(cc grpc.ClientConnInterface) TweetServiceClient {
 	return &tweetServiceClient{cc}
 }
 
-func (c *tweetServiceClient) Create(ctx context.Context, in *CreateTweetRequest, opts ...grpc.CallOption) (*CreateTweetResponse, error) {
-	out := new(CreateTweetResponse)
-	err := c.cc.Invoke(ctx, "/tweet.TweetService/Create", in, out, opts...)
+func (c *tweetServiceClient) ListTweets(ctx context.Context, in *ListTweetsRequest, opts ...grpc.CallOption) (*ListTweetsResponse, error) {
+	out := new(ListTweetsResponse)
+	err := c.cc.Invoke(ctx, "/tweet.TweetService/ListTweets", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *tweetServiceClient) Update(ctx context.Context, in *UpdateTweetRequest, opts ...grpc.CallOption) (*UpdateTweetResponse, error) {
-	out := new(UpdateTweetResponse)
-	err := c.cc.Invoke(ctx, "/tweet.TweetService/Update", in, out, opts...)
+func (c *tweetServiceClient) CreateTweet(ctx context.Context, in *CreateTweetRequest, opts ...grpc.CallOption) (*CreateTweetResponse, error) {
+	out := new(CreateTweetResponse)
+	err := c.cc.Invoke(ctx, "/tweet.TweetService/CreateTweet", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tweetServiceClient) UpdateTweet(ctx context.Context, in *UpdateTweetRequest, opts ...grpc.CallOption) (*Tweet, error) {
+	out := new(Tweet)
+	err := c.cc.Invoke(ctx, "/tweet.TweetService/UpdateTweet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,19 +66,23 @@ func (c *tweetServiceClient) Update(ctx context.Context, in *UpdateTweetRequest,
 // All implementations should embed UnimplementedTweetServiceServer
 // for forward compatibility
 type TweetServiceServer interface {
-	Create(context.Context, *CreateTweetRequest) (*CreateTweetResponse, error)
-	Update(context.Context, *UpdateTweetRequest) (*UpdateTweetResponse, error)
+	ListTweets(context.Context, *ListTweetsRequest) (*ListTweetsResponse, error)
+	CreateTweet(context.Context, *CreateTweetRequest) (*CreateTweetResponse, error)
+	UpdateTweet(context.Context, *UpdateTweetRequest) (*Tweet, error)
 }
 
 // UnimplementedTweetServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedTweetServiceServer struct {
 }
 
-func (UnimplementedTweetServiceServer) Create(context.Context, *CreateTweetRequest) (*CreateTweetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+func (UnimplementedTweetServiceServer) ListTweets(context.Context, *ListTweetsRequest) (*ListTweetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTweets not implemented")
 }
-func (UnimplementedTweetServiceServer) Update(context.Context, *UpdateTweetRequest) (*UpdateTweetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+func (UnimplementedTweetServiceServer) CreateTweet(context.Context, *CreateTweetRequest) (*CreateTweetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTweet not implemented")
+}
+func (UnimplementedTweetServiceServer) UpdateTweet(context.Context, *UpdateTweetRequest) (*Tweet, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTweet not implemented")
 }
 
 // UnsafeTweetServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -82,38 +96,56 @@ func RegisterTweetServiceServer(s grpc.ServiceRegistrar, srv TweetServiceServer)
 	s.RegisterService(&TweetService_ServiceDesc, srv)
 }
 
-func _TweetService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TweetService_ListTweets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListTweetsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TweetServiceServer).ListTweets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/tweet.TweetService/ListTweets",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TweetServiceServer).ListTweets(ctx, req.(*ListTweetsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TweetService_CreateTweet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateTweetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TweetServiceServer).Create(ctx, in)
+		return srv.(TweetServiceServer).CreateTweet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/tweet.TweetService/Create",
+		FullMethod: "/tweet.TweetService/CreateTweet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TweetServiceServer).Create(ctx, req.(*CreateTweetRequest))
+		return srv.(TweetServiceServer).CreateTweet(ctx, req.(*CreateTweetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TweetService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TweetService_UpdateTweet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateTweetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TweetServiceServer).Update(ctx, in)
+		return srv.(TweetServiceServer).UpdateTweet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/tweet.TweetService/Update",
+		FullMethod: "/tweet.TweetService/UpdateTweet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TweetServiceServer).Update(ctx, req.(*UpdateTweetRequest))
+		return srv.(TweetServiceServer).UpdateTweet(ctx, req.(*UpdateTweetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -126,12 +158,16 @@ var TweetService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*TweetServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Create",
-			Handler:    _TweetService_Create_Handler,
+			MethodName: "ListTweets",
+			Handler:    _TweetService_ListTweets_Handler,
 		},
 		{
-			MethodName: "Update",
-			Handler:    _TweetService_Update_Handler,
+			MethodName: "CreateTweet",
+			Handler:    _TweetService_CreateTweet_Handler,
+		},
+		{
+			MethodName: "UpdateTweet",
+			Handler:    _TweetService_UpdateTweet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
