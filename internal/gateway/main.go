@@ -42,7 +42,7 @@ func main() {
 	gwmux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
 			MarshalOptions: protojson.MarshalOptions{
-				UseProtoNames:   true,
+				UseProtoNames:   false,
 				EmitUnpopulated: true,
 			},
 			UnmarshalOptions: protojson.UnmarshalOptions{

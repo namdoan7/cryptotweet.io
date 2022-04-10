@@ -8,7 +8,7 @@ plugins:
       opt: paths=source_relative,require_unimplemented_servers=false
     - name: grpc-gateway
       out: ../../../internal/common/genproto/tweet
-      opt: paths=source_relative,grpc_api_configuration=service.yaml
+      opt: allow_repeated_fields_in_body=true,paths=source_relative,grpc_api_configuration=service.yaml
     # - name: openapiv2
     #   out: proto
     #   opt: grpc_api_configuration=service.yaml,openapi_configuration=swagger.yaml

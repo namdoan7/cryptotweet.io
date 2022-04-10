@@ -70,7 +70,6 @@ message ListTweetsRequest {
     string page_token = 3;
 }
 
-
 message ListTweetsResponse {
     repeated Tweet tweets = 1;
     string next_page_token = 2;
