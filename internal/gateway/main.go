@@ -46,6 +46,7 @@ func main() {
 				EmitUnpopulated: true,
 			},
 			UnmarshalOptions: protojson.UnmarshalOptions{
+
 				DiscardUnknown: false,
 			},
 		}),

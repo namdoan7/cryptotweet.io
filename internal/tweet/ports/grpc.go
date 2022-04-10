@@ -10,6 +10,7 @@ import (
 	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func trans[R any](s protoreflect.ProtoMessage) R {
@@ -36,13 +37,26 @@ func (g GrpcServer) ListTweets(ctx context.Context, in *tweetpb.ListTweetsReques
 	log.Println(tt)
 	tweets := make([]*tweetpb.Tweet, 0)
 	for _, t := range tt {
-		tweets = append(tweets, &tweetpb.Tweet{Text: t.Text})
+		tweets = append(tweets, &tweetpb.Tweet{
+			Id:               t.Id,
+			Text:             t.Text,
+			TweetId:          t.TweetId,
+			TwitterProfileId: t.TwitterProfileId,
+			TranslateText: &tweetpb.TranslateText{
+				Vietnamese: t.TranslateText.Vietnamese,
+				Russian:    t.TranslateText.Russian,
+			},
+			FavoriteCount:     t.FavoriteCount,
+			ConversationCount: t.ConversationCount,
+			Lang:              t.Lang,
+			TweetedAt:         &timestamppb.Timestamp{Seconds: t.TweetedAt.Unix()},
+		})
 	}
 	return &tweetpb.ListTweetsResponse{Tweets: tweets}, err
 }
 
 func (g GrpcServer) CreateTweet(ctx context.Context, in *tweetpb.CreateTweetRequest) (*tweetpb.CreateTweetResponse, error) {
-	tweet := trans[tweet.Tweet](in)
+	tweet := trans[tweet.Tweet](in.Tweet)
 	g.app.Commands.CreateTweet.Handle(tweet)
 	return &tweetpb.CreateTweetResponse{}, nil
 }

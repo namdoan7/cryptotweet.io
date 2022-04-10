@@ -19,12 +19,12 @@ func NewTweetGrpc(client tweetpb.TweetServiceClient) TweetGrpc {
 
 func (s TweetGrpc) CreateTweet(ctx context.Context, tweet *tweet.Tweet) error {
 	ee, err := json.Marshal(tweet)
-	var createTweetRequest tweetpb.CreateTweetRequest
+	var tweetPb tweetpb.Tweet
 	um := protojson.UnmarshalOptions{
 		DiscardUnknown: true,
 	}
-	err = um.Unmarshal(ee, &createTweetRequest)
-	_, err = s.client.CreateTweet(ctx, &createTweetRequest)
+	err = um.Unmarshal(ee, &tweetPb)
+	_, err = s.client.CreateTweet(ctx, &tweetpb.CreateTweetRequest{Tweet: &tweetPb})
 	return err
 }
 
