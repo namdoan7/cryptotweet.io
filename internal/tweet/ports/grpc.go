@@ -32,9 +32,9 @@ func NewGrpcServer(application app.Application) GrpcServer {
 }
 
 func (g GrpcServer) ListTweets(ctx context.Context, in *tweetpb.ListTweetsRequest) (*tweetpb.ListTweetsResponse, error) {
-	var filter bson.M
+	filter := make(bson.M)
 	if in.ProfileId != "" {
-		filter["profile_id"] = in.ProfileId
+		filter["twitter_profile_id"] = in.ProfileId
 	}
 	tt, err := g.app.Queries.ListTweets.Handle(filter)
 	tweets := make([]*tweetpb.Tweet, 0)

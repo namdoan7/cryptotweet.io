@@ -20,13 +20,12 @@ func NewMongoTweetRepository(mongodb *mongo.Database) *MongoTweetRepository {
 }
 
 func (m MongoTweetRepository) Find(filter bson.M) ([]*tweet.Tweet, error) {
+	tweets := make([]*tweet.Tweet, 0)
 	cursor, err := m.MongoDB.Collection("tweets").Find(context.Background(), filter)
-	var tweets = make([]*tweet.Tweet, 0)
-	for cursor.Next(context.Background()) {
-		var tweet tweet.Tweet
-		cursor.All(context.Background(), &tweet)
-		tweets = append(tweets, &tweet)
+	if err != nil {
+		return tweets, err
 	}
+	err = cursor.All(context.Background(), &tweets)
 	return tweets, err
 }
 
@@ -34,10 +33,7 @@ func (m MongoTweetRepository) GetTweet(tweetId string) (*tweet.Tweet, error) {
 	result := m.MongoDB.Collection("tweets").FindOne(context.Background(), bson.M{"tweet_id": tweetId})
 	var tweet tweet.Tweet
 	err := result.Decode(&tweet)
-	if err != nil {
-		return nil, err
-	}
-	return &tweet, nil
+	return &tweet, err
 }
 
 func (m MongoTweetRepository) Create(document tweet.Tweet) error {
