@@ -32,6 +32,7 @@ func NewApplication() app.Application {
 		},
 		Queries: app.Queries{
 			ListTweets: *query.NewListTweetsHandler(repository),
+			GetTweet:   *query.NewGetTweetHandler(repository),
 		},
 	}
 }

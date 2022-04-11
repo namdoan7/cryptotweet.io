@@ -2,7 +2,6 @@ package adapters
 
 import (
 	"context"
-	"log"
 	"time"
 
 	"github.com/chidiwilliams/flatbson"
@@ -22,15 +21,23 @@ func NewMongoTweetRepository(mongodb *mongo.Database) *MongoTweetRepository {
 
 func (m MongoTweetRepository) Find() ([]tweet.Tweet, error) {
 	cursor, err := m.MongoDB.Collection("tweets").Find(context.Background(), bson.D{})
-	log.Println("vinh", err)
 	var tweets = make([]tweet.Tweet, 0)
 	for cursor.Next(context.Background()) {
 		var tweet tweet.Tweet
 		cursor.Decode(&tweet)
 		tweets = append(tweets, tweet)
 	}
-	cursor.Decode(&tweets)
 	return tweets, err
+}
+
+func (m MongoTweetRepository) GetTweet(tweetId string) (*tweet.Tweet, error) {
+	result := m.MongoDB.Collection("tweets").FindOne(context.Background(), bson.M{"tweet_id": tweetId})
+	var tweet tweet.Tweet
+	err := result.Decode(&tweet)
+	if err != nil {
+		return nil, err
+	}
+	return &tweet, nil
 }
 
 func (m MongoTweetRepository) Create(document tweet.Tweet) error {

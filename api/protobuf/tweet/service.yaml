@@ -8,3 +8,5 @@ http:
         # - selector: collection.CollectionService.Update
         #   patch: /v1/collection/{data.id}
         #   body: "*"
+        - selector: tweet.TweetService.GetTweet
+          get: /v1/tweet/{tweet_id}

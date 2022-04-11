@@ -12,6 +12,7 @@ type Commands struct {
 
 type Queries struct {
 	ListTweets query.ListTweetsHandler
+	GetTweet   query.GetTweetHandler
 }
 
 type Application struct {

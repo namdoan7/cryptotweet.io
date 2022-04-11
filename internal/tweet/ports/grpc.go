@@ -55,6 +55,24 @@ func (g GrpcServer) ListTweets(ctx context.Context, in *tweetpb.ListTweetsReques
 	return &tweetpb.ListTweetsResponse{Tweets: tweets}, err
 }
 
+func (g GrpcServer) GetTweet(ctx context.Context, in *tweetpb.GetTweetRequest) (*tweetpb.GetTweetResponse, error) {
+	t, _ := g.app.Queries.GetTweet.Handle(in.TweetId)
+	return &tweetpb.GetTweetResponse{Tweet: &tweetpb.Tweet{
+		Id:               t.Id,
+		Text:             t.Text,
+		TweetId:          t.TweetId,
+		TwitterProfileId: t.TwitterProfileId,
+		TranslateText: &tweetpb.TranslateText{
+			Vietnamese: t.TranslateText.Vietnamese,
+			Russian:    t.TranslateText.Russian,
+		},
+		FavoriteCount:     t.FavoriteCount,
+		ConversationCount: t.ConversationCount,
+		Lang:              t.Lang,
+		TweetedAt:         &timestamppb.Timestamp{Seconds: t.TweetedAt.Unix()},
+	}}, nil
+}
+
 func (g GrpcServer) CreateTweet(ctx context.Context, in *tweetpb.CreateTweetRequest) (*tweetpb.CreateTweetResponse, error) {
 	tweet := trans[tweet.Tweet](in.Tweet)
 	g.app.Commands.CreateTweet.Handle(tweet)
