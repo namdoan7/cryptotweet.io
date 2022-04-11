@@ -19,13 +19,13 @@ func NewMongoTweetRepository(mongodb *mongo.Database) *MongoTweetRepository {
 	return &MongoTweetRepository{MongoDB: mongodb}
 }
 
-func (m MongoTweetRepository) Find() ([]tweet.Tweet, error) {
-	cursor, err := m.MongoDB.Collection("tweets").Find(context.Background(), bson.D{})
-	var tweets = make([]tweet.Tweet, 0)
+func (m MongoTweetRepository) Find(filter bson.M) ([]*tweet.Tweet, error) {
+	cursor, err := m.MongoDB.Collection("tweets").Find(context.Background(), filter)
+	var tweets = make([]*tweet.Tweet, 0)
 	for cursor.Next(context.Background()) {
 		var tweet tweet.Tweet
-		cursor.Decode(&tweet)
-		tweets = append(tweets, tweet)
+		cursor.All(context.Background(), &tweet)
+		tweets = append(tweets, &tweet)
 	}
 	return tweets, err
 }

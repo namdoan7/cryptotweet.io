@@ -7,6 +7,7 @@ import (
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/app"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
+	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
@@ -31,7 +32,11 @@ func NewGrpcServer(application app.Application) GrpcServer {
 }
 
 func (g GrpcServer) ListTweets(ctx context.Context, in *tweetpb.ListTweetsRequest) (*tweetpb.ListTweetsResponse, error) {
-	tt, err := g.app.Queries.ListTweets.Handle()
+	var filter bson.M
+	if in.ProfileId != "" {
+		filter["profile_id"] = in.ProfileId
+	}
+	tt, err := g.app.Queries.ListTweets.Handle(filter)
 	tweets := make([]*tweetpb.Tweet, 0)
 	for _, t := range tt {
 		tweets = append(tweets, t.ToProtoMessage())

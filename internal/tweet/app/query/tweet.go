@@ -1,6 +1,9 @@
 package query
 
-import "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
+import (
+	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
+	"go.mongodb.org/mongo-driver/bson"
+)
 
 type ListTweetsHandler struct {
 	TweetRepository tweet.Repository
@@ -10,8 +13,8 @@ func NewListTweetsHandler(tweetRepository tweet.Repository) *ListTweetsHandler {
 	return &ListTweetsHandler{TweetRepository: tweetRepository}
 }
 
-func (h ListTweetsHandler) Handle() ([]tweet.Tweet, error) {
-	return h.TweetRepository.Find()
+func (h ListTweetsHandler) Handle(filter bson.M) ([]*tweet.Tweet, error) {
+	return h.TweetRepository.Find(filter)
 }
 
 type GetTweetHandler struct {
