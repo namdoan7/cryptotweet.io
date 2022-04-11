@@ -169,7 +169,7 @@ func RegisterTweetServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_TweetService_GetTweet_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TweetService_GetTweet_0(ctx, mux, outboundMarshaler, w, req, response_TweetService_GetTweet_0{resp}, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -252,11 +252,20 @@ func RegisterTweetServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 
-		forward_TweetService_GetTweet_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TweetService_GetTweet_0(ctx, mux, outboundMarshaler, w, req, response_TweetService_GetTweet_0{resp}, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
+}
+
+type response_TweetService_GetTweet_0 struct {
+	proto.Message
+}
+
+func (m response_TweetService_GetTweet_0) XXX_ResponseBody() interface{} {
+	response := m.Message.(*GetTweetResponse)
+	return response.Tweet
 }
 
 var (

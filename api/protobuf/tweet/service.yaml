@@ -10,3 +10,4 @@ http:
         #   body: "*"
         - selector: tweet.TweetService.GetTweet
           get: /v1/tweet/{tweet_id}
+          response_body: tweet
