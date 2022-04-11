@@ -38,8 +38,8 @@ message Entities {
 }
 
 message Photo {
-    int32 width = 1;
-    int32 height = 2;
+    uint32 width = 1;
+    uint32 height = 2;
     string url = 3;
     string expanded_url = 4;
 }

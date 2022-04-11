@@ -1,9 +1,14 @@
 package tweet
 
-import "time"
+import (
+	"time"
+
+	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
+	"google.golang.org/protobuf/types/known/timestamppb"
+)
 
 type Entity struct {
-	Indices     []uint16 `bson:"indices,omitempty" json:"indices,omitempty"`
+	Indices     []uint32 `bson:"indices,omitempty" json:"indices,omitempty"`
 	Text        string   `bson:"text,omitempty" json:"text,omitempty"`
 	Url         string   `bson:"url,omitempty" json:"url,omitempty"`
 	DisplayUrl  string   `bson:"display_url,omitempty" json:"display_url,omitempty"`
@@ -19,8 +24,8 @@ type Entities struct {
 }
 
 type Photo struct {
-	Width       uint16 `bson:"width,omitempty" json:"width,omitempty"`
-	Height      uint16 `bson:"height,omitempty" json:"height,omitempty"`
+	Width       uint32 `bson:"width,omitempty" json:"width,omitempty"`
+	Height      uint32 `bson:"height,omitempty" json:"height,omitempty"`
 	Url         string `bson:"url,omitempty" json:"url,omitempty"`
 	ExpandedUrl string `bson:"expanded_url,omitempty" json:"expanded_url,omitempty"`
 }
@@ -50,4 +55,92 @@ type Tweet struct {
 	UpdatedAt            time.Time     `bson:"updated_at,omitempty" json:"updated_at,omitempty"`
 	CreatedAt            time.Time     `bson:"create_at,omitempty" json:"create_at,omitempty"`
 	// Parent               Tweet     `bson:"parent,omitempty" json:"parent,omitempty"`
+}
+
+func (t *Tweet) ToProtoMessage() *tweetpb.Tweet {
+	var photos = make([]*tweetpb.Photo, 0)
+	for _, photo := range t.Photos {
+		photos = append(photos, &tweetpb.Photo{
+			Width:       photo.Width,
+			Height:      photo.Height,
+			Url:         photo.Url,
+			ExpandedUrl: photo.ExpandedUrl,
+		})
+	}
+	var hashtags = make([]*tweetpb.Entity, 0)
+	for _, entity := range t.Entities.Hashtags {
+		hashtags = append(hashtags, &tweetpb.Entity{
+			Indices:     entity.Indices,
+			Text:        entity.Text,
+			Url:         entity.Url,
+			DisplayUrl:  entity.DisplayUrl,
+			ExpandedUrl: entity.ExpandedUrl,
+		})
+	}
+
+	var symbols = make([]*tweetpb.Entity, 0)
+	for _, entity := range t.Entities.Symbols {
+		symbols = append(symbols, &tweetpb.Entity{
+			Indices:     entity.Indices,
+			Text:        entity.Text,
+			Url:         entity.Url,
+			DisplayUrl:  entity.DisplayUrl,
+			ExpandedUrl: entity.ExpandedUrl,
+		})
+	}
+	var media = make([]*tweetpb.Entity, 0)
+	for _, entity := range t.Entities.Media {
+		media = append(media, &tweetpb.Entity{
+			Indices:     entity.Indices,
+			Text:        entity.Text,
+			Url:         entity.Url,
+			DisplayUrl:  entity.DisplayUrl,
+			ExpandedUrl: entity.ExpandedUrl,
+		})
+	}
+	var urls = make([]*tweetpb.Entity, 0)
+	for _, entity := range t.Entities.Urls {
+		urls = append(urls, &tweetpb.Entity{
+			Indices:     entity.Indices,
+			Text:        entity.Text,
+			Url:         entity.Url,
+			DisplayUrl:  entity.DisplayUrl,
+			ExpandedUrl: entity.ExpandedUrl,
+		})
+	}
+	var userMentions = make([]*tweetpb.Entity, 0)
+	for _, entity := range t.Entities.UserMentions {
+		userMentions = append(userMentions, &tweetpb.Entity{
+			Indices:     entity.Indices,
+			Text:        entity.Text,
+			Url:         entity.Url,
+			DisplayUrl:  entity.DisplayUrl,
+			ExpandedUrl: entity.ExpandedUrl,
+		})
+	}
+	return &tweetpb.Tweet{
+		Id:               t.Id,
+		TweetId:          t.TweetId,
+		TwitterProfileId: t.TwitterProfileId,
+		Text:             t.Text,
+		TranslateText: &tweetpb.TranslateText{
+			Vietnamese: t.TranslateText.Vietnamese,
+			Russian:    t.TranslateText.Russian,
+		},
+		Lang:   t.Lang,
+		Photos: photos,
+		Entities: &tweetpb.Entities{
+			Hashtags:     hashtags,
+			Symbols:      symbols,
+			Media:        media,
+			Urls:         urls,
+			UserMentions: userMentions,
+		},
+		FavoriteCount:        t.FavoriteCount,
+		ConversationCount:    t.ConversationCount,
+		InReplyToScreenName:  t.InReplyToScreenName,
+		InReplyToStatusIdStr: t.InReplyToStatusIdStr,
+		InReplyToUserIdStr:   t.InReplyToUserIdStr,
+		TweetedAt:            &timestamppb.Timestamp{Seconds: t.TweetedAt.Unix()},
+	}
 }
