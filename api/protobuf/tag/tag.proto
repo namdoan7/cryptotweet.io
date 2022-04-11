@@ -9,6 +9,10 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/levinhne/cryptotweet.io/tag/protobuf;tag";
 
 service TagService {
+    rpc ListTags (ListTagsRequest) returns (ListTagsResponse) {}
+    rpc GetTag (GetTagRequest) returns (GetTagResponse) {}
+    rpc CreateTag (CreateTagRequest) returns (CreateTagResponse) {}
+    rpc UpdateTag (UpdateTagRequest) returns (UpdateTagResponse) {}
 	rpc FindOrCreate (FindOrCreateRequest) returns (FindOrCreateResponse) {}
 }
 
@@ -24,6 +28,38 @@ message Tag {
     Status status = 5;
     google.protobuf.Timestamp published_at = 8;
     google.protobuf.Timestamp updated_at = 9;
+}
+
+message ListTagsRequest {
+    
+}
+
+message ListTagsResponse {
+    repeated Tag tags = 1;
+}
+
+message GetTagRequest {
+
+}
+
+message GetTagResponse {
+    Tag tag = 1;
+}
+
+message CreateTagRequest {
+    Tag tag = 1;
+}
+
+message CreateTagResponse {
+    Tag tag = 1;
+}
+
+message UpdateTagRequest {
+    Tag tag = 1;
+}
+
+message UpdateTagResponse {
+    Tag tag = 1;
 }
 
 message FindOrCreateRequest {
