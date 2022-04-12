@@ -30,6 +30,10 @@ func NewGrpcServer(application app.Application) GrpcServer {
 	return GrpcServer{app: application}
 }
 
+func (g GrpcServer) GetTag(ctx context.Context, in *tagpb.GetTagRequest) (*tagpb.GetTagResponse, error) {
+	return &tagpb.GetTagResponse{}, nil
+}
+
 func (g GrpcServer) FindOrCreate(ctx context.Context, in *tagpb.FindOrCreateRequest) (*tagpb.FindOrCreateResponse, error) {
 	tag := trans[tag.Tag](in.Tag)
 	data, err := g.app.Commands.FindOrCreate.Handle(tag)

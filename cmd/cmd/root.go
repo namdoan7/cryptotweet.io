@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"context"
-	"log"
 	"os"
 
+	"github.com/k0kubun/pp/v3"
 	"github.com/levinhne/cryptotweet.io/cmd/app"
 	"github.com/levinhne/cryptotweet.io/cmd/app/command"
 	"github.com/urfave/cli/v2"
@@ -34,9 +34,10 @@ func Execute(app app.Application) error {
 						},
 						Action: func(c *cli.Context) error {
 							tweet, err := tweetCommand.GetTweetById(c.Args().First())
-							app.Commands.CreateTweet.Handle(context.Background(), command.CreateTweet{
-								Tweet: tweet,
-							})
+							pp.Println(tweet.Entities.Hashtags)
+							// app.Commands.CreateTweet.Handle(context.Background(), command.CreateTweet{
+							// 	Tweet: tweet,
+							// })
 							return err
 						},
 						After: func(c *cli.Context) error {
@@ -55,7 +56,6 @@ func Execute(app app.Application) error {
 						Usage: "",
 						Action: func(c *cli.Context) error {
 							profile, err := profileCommand.GetProfileById(c.Args().First())
-							log.Println(profile)
 							app.Commands.CreateProfile.Handle(context.Background(), command.CreateProfile{
 								Profile: profile,
 							})

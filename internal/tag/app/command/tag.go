@@ -1,8 +1,6 @@
 package command
 
 import (
-	"log"
-
 	"github.com/levinhne/cryptotweet.io/internal/tag/domain/tag"
 )
 
@@ -15,6 +13,17 @@ func NewFindOrCreateTagHandler(tagRepository tag.Repository) *FindOrCreateTagHan
 }
 
 func (h FindOrCreateTagHandler) Handle(tag tag.Tag) (*tag.Tag, error) {
-	log.Println(tag)
 	return h.TagRepository.FindOrCreate(tag)
+}
+
+type CreateTagHandler struct {
+	TagRepository tag.Repository
+}
+
+func NewCreateTagHandler(tagRepository tag.Repository) *CreateTagHandler {
+	return &CreateTagHandler{TagRepository: tagRepository}
+}
+
+func (h CreateTagHandler) Handle(tag tag.Tag) (*tag.Tag, error) {
+	return h.TagRepository.CreateTag(tag)
 }

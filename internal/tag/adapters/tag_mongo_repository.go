@@ -17,6 +17,22 @@ func NewMongoTagRepository(mongodb *mongo.Database) *MongoTagRepository {
 	return &MongoTagRepository{MongoDB: mongodb}
 }
 
+func (m MongoTagRepository) GetTag(name string) (*tag.Tag, error) {
+	result := m.MongoDB.Collection("tags").FindOne(context.Background(), bson.M{"name": name})
+	var tag tag.Tag
+	err := result.Decode(&tag)
+	return &tag, err
+}
+
+func (m MongoTagRepository) CreateTag(tag tag.Tag) (*tag.Tag, error) {
+	result, err := m.MongoDB.Collection("tweets").InsertOne(context.Background(), tag)
+	if err != nil {
+		return nil, err
+	}
+	tag.Id = result.InsertedID.(string)
+	return &tag, err
+}
+
 func (m MongoTagRepository) FindOrCreate(tag tag.Tag) (*tag.Tag, error) {
 	filter := bson.M{"name": tag.Name}
 	update := bson.M{

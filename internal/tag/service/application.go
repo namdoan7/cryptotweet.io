@@ -6,6 +6,7 @@ import (
 	"github.com/levinhne/cryptotweet.io/internal/tag/adapters"
 	"github.com/levinhne/cryptotweet.io/internal/tag/app"
 	"github.com/levinhne/cryptotweet.io/internal/tag/app/command"
+	"github.com/levinhne/cryptotweet.io/internal/tag/app/query"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -27,6 +28,10 @@ func NewApplication() app.Application {
 	return app.Application{
 		Commands: app.Commands{
 			FindOrCreate: *command.NewFindOrCreateTagHandler(repository),
+			CreateTag:    *command.NewCreateTagHandler(repository),
+		},
+		Queries: app.Queries{
+			GetTag: *query.NewGetTagHandler(repository),
 		},
 	}
 }
