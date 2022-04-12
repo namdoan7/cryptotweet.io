@@ -2,11 +2,9 @@ package adapters
 
 import (
 	"context"
-	"encoding/json"
 
 	tweetpb "github.com/levinhne/cryptotweet.io/internal/common/genproto/tweet"
 	tweet "github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
-	"google.golang.org/protobuf/encoding/protojson"
 )
 
 type TweetGrpc struct {
@@ -18,24 +16,15 @@ func NewTweetGrpc(client tweetpb.TweetServiceClient) TweetGrpc {
 }
 
 func (s TweetGrpc) CreateTweet(ctx context.Context, tweet *tweet.Tweet) error {
-	ee, err := json.Marshal(tweet)
-	var tweetPb tweetpb.Tweet
-	um := protojson.UnmarshalOptions{
-		DiscardUnknown: true,
-	}
-	err = um.Unmarshal(ee, &tweetPb)
-	_, err = s.client.CreateTweet(ctx, &tweetpb.CreateTweetRequest{Tweet: &tweetPb})
+	_, err := s.client.CreateTweet(ctx, &tweetpb.CreateTweetRequest{
+		Tweet: tweet.ToProtoMessage(),
+	})
 	return err
 }
 
 func (s TweetGrpc) UpdateTweet(ctx context.Context, tweet *tweet.Tweet) error {
-	ee, err := json.Marshal(tweet)
-
-	var updateTweetRequest tweetpb.UpdateTweetRequest
-	um := protojson.UnmarshalOptions{
-		DiscardUnknown: true,
-	}
-	err = um.Unmarshal(ee, &updateTweetRequest)
-	_, err = s.client.UpdateTweet(ctx, &updateTweetRequest)
+	_, err := s.client.UpdateTweet(ctx, &tweetpb.UpdateTweetRequest{
+		Tweet: tweet.ToProtoMessage(),
+	})
 	return err
 }
