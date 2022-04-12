@@ -15,6 +15,12 @@ func NewTagGrpc(client tagpb.TagServiceClient) TagGrpc {
 	return TagGrpc{client: client}
 }
 
+func (s TagGrpc) GetTag(ctx context.Context, name string) (*tag.Tag, error) {
+	result, err := s.client.GetTag(ctx, &tagpb.GetTagRequest{})
+	var tag *tag.Tag
+	return tag.FromProtoMessage(result.Tag), err
+}
+
 func (s TagGrpc) CreateTag(ctx context.Context, tag tag.Tag) error {
 	_, err := s.client.CreateTag(ctx, &tagpb.CreateTagRequest{
 		Tag: tag.ToProtoMessage(),

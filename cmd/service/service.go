@@ -41,7 +41,7 @@ func newApplication(
 			CreateTweet:   command.NewCreateTweetHandler(tweetGrpc),
 			UpdateTweet:   command.NewUpdateTweetHandler(tweetGrpc),
 			CreateProfile: command.NewCreateProfileHandler(profileGrpc),
-			// FinOrCreateTag: command.NewFindOrCreateTagHandler(tagGrpc),
+			CreateTag:     command.NewCreateTagHandler(tagGrpc),
 		},
 	}
 }

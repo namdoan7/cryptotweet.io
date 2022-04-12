@@ -18,6 +18,6 @@ type ProfileService interface {
 }
 
 type TagService interface {
-	FindOrCreate(ctx context.Context, tag tag.Tag) error
+	GetTag(ctx context.Context, name string) (*tag.Tag, error)
 	CreateTag(ctx context.Context, tag tag.Tag) error
 }

@@ -26,3 +26,11 @@ func (t *Tag) ToProtoMessage() *tagpb.Tag {
 		UpdatedAt:   &timestamppb.Timestamp{Seconds: t.CreatedAt.Unix()},
 	}
 }
+
+func (t *Tag) FromProtoMessage(tpb *tagpb.Tag) *Tag {
+	return &Tag{
+		Id:         tpb.Id,
+		Name:       tpb.Name,
+		Desciption: tpb.Description,
+	}
+}
