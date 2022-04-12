@@ -10,10 +10,11 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/levinhne/cryptotweet.io/profile/protobuf;profile";
 
 service ProfileService {
+	rpc GetProfile (GetProfileRequest) returns (GetProfileResponse) {}
+	rpc CreateProfile (CreateProfileRequest) returns (CreateProfileResponse) {}
+	rpc UpdateProfile (UpdateProfileRequest) returns (UpdateProfileResponse) {}
 	rpc Find(FindProfileRequest) returns (FindProfileResponse) {}
 	rpc Create (CreateProfileRequest) returns (CreateProfileResponse) {}
-	// rpc Update (UpdateProfileRequest) returns (UpdateProfileResponse) {}
-	// rpc Delete (DeleteProfileRequest) returns (google.protobuf.Empty) {}
 }
 
 message Entity {
@@ -68,11 +69,26 @@ message FindProfileResponse {
   	repeated Profile data = 1;
 }
 
+message GetProfileRequest {
+
+}
+
+message GetProfileResponse {
+	Profile profile = 1;
+}
+
 message CreateProfileRequest {
 	Profile profile = 1;
 }
 
 message CreateProfileResponse {
-	
+	Profile profile = 1;
 }
 
+message UpdateProfileRequest {
+	Profile profile = 1;
+}
+
+message UpdateProfileResponse {
+	Profile profile = 1;
+}
