@@ -6,6 +6,7 @@ import (
 	"github.com/levinhne/cryptotweet.io/cmd/adapters"
 	"github.com/levinhne/cryptotweet.io/cmd/app"
 	"github.com/levinhne/cryptotweet.io/cmd/app/command"
+	"github.com/levinhne/cryptotweet.io/cmd/app/query"
 	"github.com/levinhne/cryptotweet.io/internal/common/client"
 )
 
@@ -32,9 +33,9 @@ func NewApplication(ctx context.Context) (app.Application, func()) {
 
 func newApplication(
 	ctx context.Context,
-	tweetGrpc command.TweetService,
-	profileGrpc command.ProfileService,
-	tagGrpc command.TagService,
+	tweetGrpc adapters.TweetGrpc,
+	profileGrpc adapters.ProfileGrpc,
+	tagGrpc adapters.TagGrpc,
 ) app.Application {
 	return app.Application{
 		Commands: app.Commands{
@@ -42,6 +43,9 @@ func newApplication(
 			UpdateTweet:   command.NewUpdateTweetHandler(tweetGrpc),
 			CreateProfile: command.NewCreateProfileHandler(profileGrpc),
 			CreateTag:     command.NewCreateTagHandler(tagGrpc),
+		},
+		Queries: app.Queries{
+			GetTag: query.NewGetTagHandler(tagGrpc),
 		},
 	}
 }

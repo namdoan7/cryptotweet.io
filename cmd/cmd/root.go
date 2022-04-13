@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/k0kubun/pp/v3"
+	"github.com/AlecAivazis/survey/v2"
 	"github.com/levinhne/cryptotweet.io/cmd/app"
 	"github.com/levinhne/cryptotweet.io/cmd/app/command"
 	"github.com/levinhne/cryptotweet.io/internal/tag/domain/tag"
@@ -16,6 +16,14 @@ func Execute(app app.Application) error {
 	profileCommand := NewProfileCommand()
 	rootCommand := &cli.App{
 		Name: "cryptotweet",
+		Usage: `
+			██████╗██████╗ ██╗   ██╗██████╗ ████████╗ ██████╗ ████████╗██╗    ██╗███████╗███████╗████████╗
+			██╔════╝██╔══██╗╚██╗ ██╔╝██╔══██╗╚══██╔══╝██╔═══██╗╚══██╔══╝██║    ██║██╔════╝██╔════╝╚══██╔══╝
+			██║     ██████╔╝ ╚████╔╝ ██████╔╝   ██║   ██║   ██║   ██║   ██║ █╗ ██║█████╗  █████╗     ██║   
+			██║     ██╔══██╗  ╚██╔╝  ██╔═══╝    ██║   ██║   ██║   ██║   ██║███╗██║██╔══╝  ██╔══╝     ██║   
+			╚██████╗██║  ██║   ██║   ██║        ██║   ╚██████╔╝   ██║   ╚███╔███╔╝███████╗███████╗   ██║   
+			╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝        ╚═╝    ╚═════╝    ╚═╝    ╚══╝╚══╝ ╚══════╝╚══════╝   ╚═╝   																							
+		`,
 		Commands: []*cli.Command{
 			{
 				Name:  "tweet",
@@ -24,18 +32,23 @@ func Execute(app app.Application) error {
 					{
 						Name:  "add",
 						Usage: "",
-						Before: func(c *cli.Context) error {
-							// days := []string{}
-							// prompt := &survey.MultiSelect{
-							// 	Message: "What days do you prefer:",
-							// 	Options: []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"},
-							// }
-							// survey.AskOne(prompt, &days)
-							return nil
-						},
 						Action: func(c *cli.Context) error {
 							tweet, err := tweetCommand.GetTweetById(c.Args().First())
-							pp.Println(tweet.Entities.Hashtags)
+							hashtags := make([]string, 0)
+							for _, hashtag := range tweet.Entities.Hashtags {
+								hashtags = append(hashtags, hashtag.Text)
+							}
+							hts := []string{}
+							hashtags = append(hashtags, []string{"ADA", "SHIBA"}...)
+							prompt := &survey.MultiSelect{
+								Message: "Choose a hashtag:",
+								Options: hashtags,
+								Default: "red",
+							}
+							survey.AskOne(prompt, &hts, survey.WithValidator(survey.Required))
+							// for _, h := range hts {
+							// 	app.Commands.
+							// }
 							// app.Commands.CreateTweet.Handle(context.Background(), command.CreateTweet{
 							// 	Tweet: tweet,
 							// })
