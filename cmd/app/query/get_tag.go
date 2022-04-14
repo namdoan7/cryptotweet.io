@@ -3,14 +3,15 @@ package query
 import (
 	"context"
 
+	"github.com/levinhne/cryptotweet.io/cmd/adapters"
 	"github.com/levinhne/cryptotweet.io/internal/tag/domain/tag"
 )
 
 type GetTagHandler struct {
-	TagService TagService
+	TagService adapters.TagService
 }
 
-func NewGetTagHandler(tagService TagService) GetTagHandler {
+func NewGetTagHandler(tagService adapters.TagService) GetTagHandler {
 	return GetTagHandler{TagService: tagService}
 }
 

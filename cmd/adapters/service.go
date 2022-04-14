@@ -1,4 +1,4 @@
-package command
+package adapters
 
 import (
 	"context"
@@ -18,5 +18,6 @@ type ProfileService interface {
 }
 
 type TagService interface {
+	GetTag(ctx context.Context, name string) (*tag.Tag, error)
 	CreateTag(ctx context.Context, tag tag.Tag) error
 }

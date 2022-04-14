@@ -27,10 +27,10 @@ func NewApplication() app.Application {
 
 	return app.Application{
 		Commands: app.Commands{
-			CreateProfile: *command.NewCreateProfileHandler(repository),
+			CreateProfile: command.NewCreateProfileHandler(repository),
 		},
 		Queries: app.Queries{
-			FindProfile: *query.NewFindProfileHandler(repository),
+			FindProfile: query.NewFindProfileHandler(repository),
 		},
 	}
 }

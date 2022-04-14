@@ -27,12 +27,12 @@ func NewApplication() app.Application {
 
 	return app.Application{
 		Commands: app.Commands{
-			CreateTweet: *command.NewCreateTweetHandler(repository),
-			UpdateTweet: *command.NewUpdateTweetHandler(repository),
+			CreateTweet: command.NewCreateTweetHandler(repository),
+			UpdateTweet: command.NewUpdateTweetHandler(repository),
 		},
 		Queries: app.Queries{
-			ListTweets: *query.NewListTweetsHandler(repository),
-			GetTweet:   *query.NewGetTweetHandler(repository),
+			ListTweets: query.NewListTweetsHandler(repository),
+			GetTweet:   query.NewGetTweetHandler(repository),
 		},
 	}
 }

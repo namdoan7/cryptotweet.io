@@ -8,8 +8,8 @@ type FindOrCreateTagHandler struct {
 	TagRepository tag.Repository
 }
 
-func NewFindOrCreateTagHandler(tagRepository tag.Repository) *FindOrCreateTagHandler {
-	return &FindOrCreateTagHandler{TagRepository: tagRepository}
+func NewFindOrCreateTagHandler(tagRepository tag.Repository) FindOrCreateTagHandler {
+	return FindOrCreateTagHandler{TagRepository: tagRepository}
 }
 
 func (h FindOrCreateTagHandler) Handle(tag tag.Tag) (*tag.Tag, error) {
@@ -20,8 +20,8 @@ type CreateTagHandler struct {
 	TagRepository tag.Repository
 }
 
-func NewCreateTagHandler(tagRepository tag.Repository) *CreateTagHandler {
-	return &CreateTagHandler{TagRepository: tagRepository}
+func NewCreateTagHandler(tagRepository tag.Repository) CreateTagHandler {
+	return CreateTagHandler{TagRepository: tagRepository}
 }
 
 func (h CreateTagHandler) Handle(tag tag.Tag) (*tag.Tag, error) {

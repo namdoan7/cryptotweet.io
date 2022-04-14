@@ -27,11 +27,11 @@ func NewApplication() app.Application {
 
 	return app.Application{
 		Commands: app.Commands{
-			FindOrCreate: *command.NewFindOrCreateTagHandler(repository),
-			CreateTag:    *command.NewCreateTagHandler(repository),
+			FindOrCreate: command.NewFindOrCreateTagHandler(repository),
+			CreateTag:    command.NewCreateTagHandler(repository),
 		},
 		Queries: app.Queries{
-			GetTag: *query.NewGetTagHandler(repository),
+			GetTag: query.NewGetTagHandler(repository),
 		},
 	}
 }

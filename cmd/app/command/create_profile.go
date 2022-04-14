@@ -3,6 +3,7 @@ package command
 import (
 	"context"
 
+	"github.com/levinhne/cryptotweet.io/cmd/adapters"
 	"github.com/levinhne/cryptotweet.io/internal/profile/domain/profile"
 )
 
@@ -11,10 +12,10 @@ type CreateProfile struct {
 }
 
 type CreateProfileHandler struct {
-	ProfileService ProfileService
+	ProfileService adapters.ProfileService
 }
 
-func NewCreateProfileHandler(profileService ProfileService) CreateProfileHandler {
+func NewCreateProfileHandler(profileService adapters.ProfileService) CreateProfileHandler {
 	return CreateProfileHandler{ProfileService: profileService}
 }
 

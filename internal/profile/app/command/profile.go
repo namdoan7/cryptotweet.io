@@ -6,8 +6,8 @@ type CreateProfileHandler struct {
 	ProfileRepository profile.Repository
 }
 
-func NewCreateProfileHandler(profileRepository profile.Repository) *CreateProfileHandler {
-	return &CreateProfileHandler{ProfileRepository: profileRepository}
+func NewCreateProfileHandler(profileRepository profile.Repository) CreateProfileHandler {
+	return CreateProfileHandler{ProfileRepository: profileRepository}
 }
 
 func (h CreateProfileHandler) Handle(profile profile.Profile) error {

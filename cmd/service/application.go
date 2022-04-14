@@ -33,9 +33,9 @@ func NewApplication(ctx context.Context) (app.Application, func()) {
 
 func newApplication(
 	ctx context.Context,
-	tweetGrpc adapters.TweetGrpc,
-	profileGrpc adapters.ProfileGrpc,
-	tagGrpc adapters.TagGrpc,
+	tweetGrpc adapters.TweetService,
+	profileGrpc adapters.ProfileService,
+	tagGrpc adapters.TagService,
 ) app.Application {
 	return app.Application{
 		Commands: app.Commands{

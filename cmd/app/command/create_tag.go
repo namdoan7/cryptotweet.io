@@ -3,6 +3,7 @@ package command
 import (
 	"context"
 
+	"github.com/levinhne/cryptotweet.io/cmd/adapters"
 	"github.com/levinhne/cryptotweet.io/internal/tag/domain/tag"
 )
 
@@ -11,10 +12,10 @@ type CreateTag struct {
 }
 
 type CreateTagHandler struct {
-	TagService TagService
+	TagService adapters.TagService
 }
 
-func NewCreateTagHandler(tagService TagService) CreateTagHandler {
+func NewCreateTagHandler(tagService adapters.TagService) CreateTagHandler {
 	return CreateTagHandler{TagService: tagService}
 }
 

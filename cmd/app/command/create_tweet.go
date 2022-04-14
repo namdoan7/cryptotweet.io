@@ -3,6 +3,7 @@ package command
 import (
 	"context"
 
+	"github.com/levinhne/cryptotweet.io/cmd/adapters"
 	"github.com/levinhne/cryptotweet.io/internal/tweet/domain/tweet"
 )
 
@@ -11,10 +12,10 @@ type CreateTweet struct {
 }
 
 type CreateTweetHandler struct {
-	TweetService TweetService
+	TweetService adapters.TweetService
 }
 
-func NewCreateTweetHandler(tweetService TweetService) CreateTweetHandler {
+func NewCreateTweetHandler(tweetService adapters.TweetService) CreateTweetHandler {
 	return CreateTweetHandler{TweetService: tweetService}
 }
 
