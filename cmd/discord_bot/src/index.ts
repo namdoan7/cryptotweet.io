@@ -1,4 +1,4 @@
-import { Client, Intents } from "discord.js";
+import { Client, Intents, MessageActionRow, Modal, TextInputComponent, ModalActionRowComponent } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
@@ -36,16 +36,29 @@ client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
     const { commandName } = interaction;
     if (commandName === 'echo') {
+         // await interaction.reply('Pong!');
+        const modal = new Modal()
+			.setCustomId('myModal')
+			.setTitle('My Modal');
+        const favoriteColorInput = new TextInputComponent()
+			.setCustomId('favoriteColorInput')
+		    // The label is the prompt the user sees for this input
+			.setLabel("What's your favorite color?")
+		    // Short means only a single line of text
+			.setStyle('SHORT');
+        const firstActionRow = new MessageActionRow<ModalActionRowComponent>().addComponents(favoriteColorInput);
+        modal.addComponents(firstActionRow);
+		await interaction.showModal(modal);
         console.log(interaction.options.data)
-        await interaction.reply('Pong!');
-        (async () => {
-            await interaction.followUp('start chrome');
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            await page.goto('https://www.npmjs.com/package/@types/puppeteer');
-            await page.screenshot({ path: 'example.png' });
-            await browser.close();
-        })();
+       
+        // (async () => {
+        //     await interaction.followUp('start chrome');
+        //     const browser = await puppeteer.launch();
+        //     const page = await browser.newPage();
+        //     await page.goto('https://www.npmjs.com/package/@types/puppeteer');
+        //     await page.screenshot({ path: 'example.png' });
+        //     await browser.close();
+        // })();
         // await interaction.followUp('Pong!');
     }
 });
